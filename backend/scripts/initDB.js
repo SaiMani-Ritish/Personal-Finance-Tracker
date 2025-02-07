@@ -2,14 +2,17 @@ const db = require("../models");
 
 const resetDB = async (erase = false) => {
   try {
+    console.log("Database storage path:", db.sequelize.options.storage);
+
     if (erase) {
       console.log("Dropping and recreating the database...");
-      await db.sequelize.sync({ force: true }); // Erases all data
+      await db.sequelize.sync({ force: true }); // Deletes and recreates tables
     } else {
-      console.log("Synchronizing the database (keeping data)...");
-      await db.sequelize.sync(); // Keeps existing data
+      console.log("Synchronizing the database...");
+      await db.sequelize.sync(); // Only creates tables if they don't exist
     }
-    console.log("Database initialized.");
+
+    console.log("Database initialized successfully.");
   } catch (error) {
     console.error("Error initializing database:", error);
   } finally {
@@ -17,5 +20,5 @@ const resetDB = async (erase = false) => {
   }
 };
 
-const erase = process.argv.includes("--erase"); // Run with "--erase" to clear data
+const erase = process.argv.includes("--erase");
 resetDB(erase);
