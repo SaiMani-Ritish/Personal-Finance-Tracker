@@ -1,32 +1,30 @@
-const { DataTypes } = require("sequelize");
-const sequelize = require("../config/database");
-const User = require("./user");
+const mongoose = require('mongoose');
 
-const Expense = sequelize.define("Expense", {
-  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  userId: { 
-    type: DataTypes.INTEGER, 
-    allowNull: false, 
-    references: { model: User, key: "id" }, 
-    onDelete: "CASCADE"
+const expenseSchema = new mongoose.Schema({
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
   },
-  amount: { 
-    type: DataTypes.FLOAT, 
-    allowNull: false, 
-    validate: { min: { args: [0], msg: "Amount must be positive" } } 
+  amount: {
+    type: Number,
+    required: [true, 'Amount is required'],
+    min: [0, 'Amount cannot be negative']
   },
-  category: { 
-    type: DataTypes.STRING, 
-    allowNull: false 
+  category: {
+    type: String,
+    required: [true, 'Category is required']
   },
-  date: { 
-    type: DataTypes.DATEONLY, 
-    allowNull: false 
+  description: {
+    type: String,
+    required: [true, 'Description is required']
   },
-  paymentMethod: { 
-    type: DataTypes.STRING, 
-    allowNull: false 
+  date: {
+    type: Date,
+    default: Date.now
   }
+}, {
+  timestamps: true
 });
 
-module.exports = Expense;
+module.exports = mongoose.model('Expense', expenseSchema);

@@ -1,28 +1,37 @@
-const { DataTypes } = require("sequelize");
-const sequelize = require("../config/database");
+const mongoose = require('mongoose');
 
-const User = sequelize.define("User", {
-  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+const userSchema = new mongoose.Schema({
   name: { 
-    type: DataTypes.STRING, 
-    allowNull: false, 
-    validate: { notEmpty: { msg: "Name is required" } } 
+    type: String, 
+    required: [true, 'Name is required'],
   },
   email: { 
-    type: DataTypes.STRING, 
-    allowNull: false, 
-    unique: true, 
-    validate: { isEmail: { msg: "Invalid email format" } } 
+    type: String, 
+    required: [true, 'Email is required'],
+    unique: true,
+    validate: {
+      validator: function(v) {
+        return /\S+@\S+\.\S+/.test(v);
+      },
+      message: 'Invalid email format'
+    }
   },
   password: { 
-    type: DataTypes.STRING, 
-    allowNull: false, 
-    validate: { len: { args: [6, 100], msg: "Password must be at least 6 characters long" } } 
+    type: String, 
+    required: [true, 'Password is required'],
+    minlength: [6, 'Password must be at least 6 characters long']
   },
   phoneNo: { 
-    type: DataTypes.STRING, 
-    validate: { isNumeric: { msg: "Phone number must contain only digits" } } 
+    type: String,
+    validate: {
+      validator: function(v) {
+        return /^\d+$/.test(v);
+      },
+      message: 'Phone number must contain only digits'
+    }
   }
+}, {
+  timestamps: true
 });
 
-module.exports = User;
+module.exports = mongoose.model('User', userSchema);
