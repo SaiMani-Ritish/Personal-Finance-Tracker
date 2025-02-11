@@ -7,18 +7,26 @@
    - The server will run at [http://localhost:8080/](http://localhost:8080/).
 
 ## Database Connection
-- This project uses SQLite, allowing the database file to be included in the repository and shared across team members.
+- This project uses MongoDB databse.
+
+### Installing MongoDB
+- Install [MongoDB](https://www.mongodb.com/docs/manual/installation/#mongodb-installation-tutorials) by following instructions.
 
 ### Script to Generate the Database
 - To update the database schema while preserving existing data:
   ```sh
-  node backend/scripts/initDB.js
+  node backend/scripts/initMongoDB.js
   ```
 - To drop and recreate the database (erasing all data):
   ```sh
-  node backend/scripts/initDB.js --erase
+  node backend/scripts/initMongoDB.js --erase
   ```
 
 ### Viewing the Database
-- Use [DB Browser for SQLite](https://sqlitebrowser.org/dl/) to explore the database visually.
+- Download [MongoDB Compass](https://www.mongodb.com/try/download/compass) to explore the database visually.
+  - Make sure mongodb is running before opening Compass.
+  - Connect to the database by going to `Connection` -> `Connect` and entering `mongodb://localhost:27017/expense_tracker` as the URL. 
+  - Your database should now be visible in Compass.
 
+## API Endpoints
+- API endpoints are defined in the `routes` directory.
