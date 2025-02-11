@@ -1,22 +1,21 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import './App.css';
+import React, { useState } from "react";
+import Navbar from "./components/Navbar";
+import Dashboard from "./components/Dashboard";
+import BudgetPlanner from "./components/BudgetPlanner";
+import ExpenseRecords from "./components/ExpenseRecords";
 
-const App = () => {
-  const [message, setMessage] = useState("");
-
-  useEffect(() => {
-    axios.get("http://localhost:5000/").then((response) => {
-      setMessage(response.data);
-    });
-  }, []);
+function App() {
+  const [activePage, setActivePage] = useState("dashboard");
 
   return (
-    <div className="App">
-      <h1>Full Stack App with SQLite</h1>
-      <p>{message}</p>
+    <div>
+      <Navbar setActivePage={setActivePage} />
+      {activePage === "dashboard" && <Dashboard />}
+      {activePage === "budget" && <BudgetPlanner />}
+      {activePage === "expenses" && <ExpenseRecords />}
     </div>
   );
-};
+}
 
 export default App;
+// Compare this snippet from frontend/src/index.js:
