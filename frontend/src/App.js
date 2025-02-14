@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import './App.css';
+import Navbar from "./components/Navbar";
+import Dashboard from "./components/Dashboard";
+import BudgetPlanner from "./components/BudgetPlanner";
+import ExpenseRecords from "./components/ExpenseRecords";
 
-const App = () => {
+function App() {
+  const [activePage, setActivePage] = useState("dashboard");
   const [message, setMessage] = useState("");
 
   useEffect(() => {
@@ -12,11 +16,14 @@ const App = () => {
   }, []);
 
   return (
-    <div className="App">
-      <h1>Full Stack App with SQLite</h1>
+    <div>
+      <Navbar setActivePage={setActivePage} />
+      {activePage === "dashboard" && <Dashboard />}
+      {activePage === "budget" && <BudgetPlanner />}
+      {activePage === "expenses" && <ExpenseRecords />}
       <p>{message}</p>
     </div>
   );
-};
+}
 
 export default App;
