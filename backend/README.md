@@ -7,7 +7,7 @@
    - The server will run at [http://localhost:8080/](http://localhost:8080/).
 
 ## Database Connection
-- This project uses MongoDB databse.
+- This project uses the MongoDB database.
 
 ### Installing MongoDB
 - Install [MongoDB](https://www.mongodb.com/docs/manual/installation/#mongodb-installation-tutorials) by following instructions.
