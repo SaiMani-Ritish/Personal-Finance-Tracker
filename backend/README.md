@@ -11,6 +11,8 @@
 
 ### Installing MongoDB
 - Install [MongoDB](https://www.mongodb.com/docs/manual/installation/#mongodb-installation-tutorials) by following instructions.
+- Start MongoDB: `brew services start mongodb-community`
+- Stop MongoDB: `brew services stop mongodb-community`
 
 ### Script to Generate the Database
 - To update the database schema while preserving existing data:
