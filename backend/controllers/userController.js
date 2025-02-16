@@ -1,6 +1,7 @@
 const User = require('../models/user');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { TIME_CONSTANTS } = require('../constants/constants');
 
 // Register new user
 exports.registerUser = async (req, res) => {
@@ -32,7 +33,7 @@ exports.registerUser = async (req, res) => {
         const token = jwt.sign(
             { userId: user._id },
             process.env.JWT_SECRET,
-            { expiresIn: '24h' }
+            { expiresIn: TIME_CONSTANTS.JWT_EXPIRY }
         );
 
         res.status(201).json({
@@ -71,7 +72,7 @@ exports.loginUser = async (req, res) => {
         const token = jwt.sign(
             { userId: user._id },
             process.env.JWT_SECRET,
-            { expiresIn: '24h' }
+            { expiresIn: TIME_CONSTANTS.JWT_EXPIRY }
         );
 
         res.json({
