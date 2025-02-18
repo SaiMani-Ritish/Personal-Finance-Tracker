@@ -1,4 +1,3 @@
-// src/components/Dashboard.js
 import React from 'react';
 import ChatBot from './ChatBot';
 

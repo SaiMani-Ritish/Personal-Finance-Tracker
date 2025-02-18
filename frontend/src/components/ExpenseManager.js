@@ -1,10 +1,9 @@
-// src/components/ExpenseTracker.js
 import React from 'react';
 
-function ExpenseTracker() {
+function ExpenseManager() {
   return (
-    <div className="expense-tracker">
-      <h1>Expense Tracker</h1>
+    <div className="expense-manager">
+      <h1>Expense Manager</h1>
       <div className="expense-form">
         <form>
           <input type="date" placeholder="Date" />
@@ -17,4 +16,4 @@ function ExpenseTracker() {
   );
 }
 
-export default ExpenseTracker;
+export default ExpenseManager;
