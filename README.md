@@ -34,7 +34,7 @@ The **Personal Finance Tracker** is a MERN stack web application designed to hel
 #### **Installation & Setup**  
 1. Clone the repository:  
    ```sh
-   git clone https://github.com/your-team-repo/finance-tracker.git
+   git clone https://github.com/SaiMani-Ritish/TP-CS628_Team3_Personal-Finance-Tracker.git
    cd finance-tracker
    ```
 2. Install dependencies:  
