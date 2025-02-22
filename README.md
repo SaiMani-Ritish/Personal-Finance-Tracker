@@ -1,14 +1,12 @@
 # TP-CS628_Team3_Personal Finance Tracker
 
-### **Personal Finance Tracker**  
-
-#### **Overview**  
+ 
 The **Personal Finance Tracker** is a MERN stack web application designed to help users track their financial transactions, manage expenses, and plan their budgets effectively. The app provides an interactive dashboard with categorized expenses, income tracking, savings distribution, and AI-powered financial insights.  
 
 #### **Key Features**  
 - **Dashboard:**  
   - Displays financial overviews, including income trends and categorized expenses.  
-  - Interactive charts for better visualization of spending and savings.  
+  - Interactive charts for better visualization of our spending and savings.  
   - AI-powered chatbot for financial queries and insights.  
 
 - **Expense Manager:**  
@@ -27,7 +25,7 @@ The **Personal Finance Tracker** is a MERN stack web application designed to hel
 
 #### **Technology Stack**  
 - **Frontend:** React, React Router, JSX, Bootstrap for UI  
-- **Backend:** Node.js, Express.js  
+- **Backend:** Node.js(server-side runtime), Express.js(backend framework)
 - **Database:** MongoDB (Mongoose for schema modeling)  
 - **State Management:** React Context API / Hooks  
 - **Authentication:** (To be added in future versions)  
@@ -55,27 +53,15 @@ The **Personal Finance Tracker** is a MERN stack web application designed to hel
    ```
 5. Open `http://localhost:3000/` in your browser to access the application.  
 
-#### **API Endpoints**  
-| Method | Endpoint | Description |
-|--------|---------|-------------|
-| GET | `/api/expenses` | Fetch all expenses |
-| POST | `/api/expenses` | Add a new expense |
-| PUT | `/api/expenses/:id` | Edit an expense |
-| DELETE | `/api/expenses/:id` | Delete an expense |
-| GET | `/api/budgets` | Fetch all budgets |
-| POST | `/api/budgets` | Create a budget |
-| PUT | `/api/budgets/:id` | Update a budget |
-| DELETE | `/api/budgets/:id` | Remove a budget |
-| GET | `/api/ai/analyze` | AI-generated financial insights |
 
 #### **Lessons Learned**  
-- Improved understanding of the MERN stack and full-stack development.  
-- Learned how to integrate generative AI into web applications.  
+- Improved our understanding of the MERN stack and full-stack development.  
+- Learning how to integrate generative AI into web applications.  
 - Gained hands-on experience in project collaboration using GitHub.  
 - Improved UI design and state management in React.  
 
 #### **Contributors**  
 - **Vidhi** – Expense Manager Feature  
 - **Ritish** – Budget Planner Feature  
-- **Sangetha** – Dashboard Feature  
+- **Sangeetha** – Dashboard Feature  
 
