@@ -265,3 +265,183 @@ button:hover {
 .text-secondary {
   color: var(--text-secondary);
 }
+
+/*BudgetPlanner.css*/
+.budget-planner {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+}
+
+.budget-planner h1 {
+  font-size: 1.75rem;
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+  color: var(--text-primary);
+}
+
+.income-section,
+.expenses-section,
+.goals-section,
+.saving-summary {
+  background-color: var(--surface-color);
+  border-radius: var(--border-radius);
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+  box-shadow: var(--card-shadow);
+  transition: var(--transition);
+}
+
+.income-section:hover,
+.expenses-section:hover,
+.goals-section:hover,
+.saving-summary:hover {
+  box-shadow: var(--elevation-2);
+}
+
+.budget-planner h2 {
+  font-size: 1.25rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+}
+
+.budget-planner h3 {
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.add-goal,
+.add-expense {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.add-goal input,
+.add-expense input {
+  flex: 1;
+  min-width: 120px;
+}
+
+.expenses-list,
+.goals-list {
+  margin-top: 1rem;
+}
+
+.expenses-list ul,
+.goals-list ul {
+  list-style-type: none;
+}
+
+.expenses-list li,
+.goals-list li {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.expenses-list li:last-child,
+.goals-list li:last-child {
+  border-bottom: none;
+}
+
+.expenses-list li > div,
+.goals-list li > div {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.25rem;
+}
+
+/* Style for remove buttons */
+.expenses-list button,
+.goals-list button {
+  background-color: transparent;
+  color: var(--error-color);
+  box-shadow: none;
+  padding: 0.25rem;
+  font-size: 1rem;
+  min-width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.expenses-list button:hover,
+.goals-list button:hover {
+  background-color: rgba(244, 67, 54, 0.08);
+  box-shadow: none;
+}
+
+/* Saving summary styling */
+.saving-summary {
+  background-color: var(--surface-color);
+  border-left: 4px solid var(--primary-color);
+}
+
+.saving-summary > div {
+  padding: 0.5rem 0;
+}
+
+/* Positive/negative balance indicators */
+.positive-amount {
+  color: var(--success-color);
+  font-weight: 500;
+}
+
+.negative-amount {
+  color: var(--error-color);
+  font-weight: 500;
+}
+
+/* Warning message styling */
+.warning-message {
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--error-color);
+  background-color: rgba(244, 67, 54, 0.08);
+  border-radius: var(--border-radius);
+}
+
+/* Button variants */
+.budget-planner .button-primary {
+  background-color: var(--primary-color);
+}
+
+.budget-planner .button-secondary {
+  background-color: transparent;
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+}
+
+.budget-planner .button-secondary:hover {
+  background-color: rgba(33, 150, 243, 0.08);
+  box-shadow: none;
+}
+
+/* Responsive design for mobile */
+@media (max-width: 768px) {
+  .budget-planner {
+    padding: 1rem;
+  }
+  
+  .add-goal,
+  .add-expense {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .add-goal input,
+  .add-expense input {
+    width: 100%;
+  }
+  
+  .add-goal button,
+  .add-expense button {
+    width: 100%;
+  }
+}
