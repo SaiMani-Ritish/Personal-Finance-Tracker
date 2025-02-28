@@ -36,6 +36,7 @@ exports.registerUser = async (req, res) => {
             { expiresIn: TIME_CONSTANTS.JWT_EXPIRY }
         );
 
+        // Send response
         res.status(201).json({
             message: 'User registered successfully',
             token,
@@ -74,7 +75,8 @@ exports.loginUser = async (req, res) => {
             process.env.JWT_SECRET,
             { expiresIn: TIME_CONSTANTS.JWT_EXPIRY }
         );
-
+        
+        // Send response
         res.json({
             message: 'Login successful',
             token,

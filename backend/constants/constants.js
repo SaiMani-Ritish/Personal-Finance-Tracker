@@ -1,6 +1,6 @@
 // Time constants
 const TIME_CONSTANTS = {
-    JWT_EXPIRY: '365d',
+    JWT_EXPIRY: '365d', // 1 year 
 };
 
 module.exports = {

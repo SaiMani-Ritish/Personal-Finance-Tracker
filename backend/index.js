@@ -4,6 +4,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const db = require("./models");
 const userRoutes = require('./routes/userRoutes');
+const expenseRoutes = require('./routes/expenseRoutes');
 
 const app = express();
 app.use(express.json());
@@ -14,7 +15,9 @@ app.get("/", (req, res) => {
   res.send("API is running...");
 });
 
-app.use('/api/users', userRoutes);
+// Routes
+app.use('/api/user', userRoutes); // User routes
+app.use('/api/expense', expenseRoutes); // Expense routes
 
 // Start server and connect to database
 const PORT = process.env.PORT || 8080;

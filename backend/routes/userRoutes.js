@@ -4,10 +4,10 @@ const { registerUser, loginUser, getUserProfile } = require('../controllers/user
 const auth = require('../middleware/auth');
 
 // Public routes
-router.post('/register', registerUser);
-router.post('/login', loginUser);
+router.post('/register', registerUser); // POST /api/userregister
+router.post('/login', loginUser); // POST /api/userlogin
 
 // Protected routes
-router.get('/profile', auth, getUserProfile);
+router.get('/profile', auth, getUserProfile); // GET /api/userprofile
 
 module.exports = router;

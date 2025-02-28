@@ -10,12 +10,12 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import Button from '@mui/material/Button';
 import EditIcon from '@mui/icons-material/Edit';
 
-function createData(User, amount, category, description, date) {
-    return { User, amount, category, description, date };
+function createData(amount, category, description, date) {
+    return {amount, category, description, date };
   }
 const rows = [
-    createData("User 1", 159, 'Category 1', 'Description 1', '2023-09-01'),
-    createData("User 2", 237, 'Category 2', 'Description 2', '2023-09-02')
+    createData(159, 'Category 1', 'Description 1', '2023-09-01'),
+    createData(237, 'Category 2', 'Description 2', '2023-09-02')
   ];
   
 export  function ExpenseList() {
@@ -24,8 +24,7 @@ export  function ExpenseList() {
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>User Name </TableCell>
-              <TableCell align="right">Amount</TableCell>
+              <TableCell align="right" colSpan={2}>Amount</TableCell>
               <TableCell align="right">category</TableCell>
               <TableCell align="right">Description</TableCell>
               <TableCell align="right">Date</TableCell>
@@ -40,7 +39,6 @@ export  function ExpenseList() {
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
-                  {row.User}
                 </TableCell>
                 <TableCell align="right">{row.amount}</TableCell>
                 <TableCell align="right">{row.category}</TableCell>
@@ -64,4 +62,3 @@ export  function ExpenseList() {
     );
 }
 export default ExpenseList;
-

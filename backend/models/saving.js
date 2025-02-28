@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+// Saving schema
 const savingSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
