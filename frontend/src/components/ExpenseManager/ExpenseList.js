@@ -11,9 +11,11 @@ import { Box, IconButton } from '@mui/material';
 import './ExpenseList.css';
 import DeleteExpense from './DeleteExpense';
 
-export function ExpenseList({ expenses, onEdit }) {
+const dayjs = require('dayjs');
+
+export function ExpenseList({ expenses, onEdit, onDelete }) {
   return (
-    <Box class="expense-list-box">
+    <Box className="expense-list-box">
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <colgroup>
@@ -36,18 +38,18 @@ export function ExpenseList({ expenses, onEdit }) {
           </TableHead>
           <TableBody>
             {expenses.map((expense) => (
-              <TableRow key={expense.name} >
+              <TableRow key={expense._id}>
                 <TableCell align="left">{expense.amount}</TableCell>
                 <TableCell align="left">{expense.category}</TableCell>
                 <TableCell align="left">{expense.description}</TableCell>
-                <TableCell align="left">{expense.date}</TableCell>
+                <TableCell align="left">{dayjs(expense.date).format('YYYY-MM-DD')}</TableCell>
                 <TableCell align="left">
-                  <IconButton variant="outlined" onClick={() => onEdit(expense)}>
-                    <EditIcon color='primary' />
+                  <IconButton onClick={() => onEdit(expense)}>
+                    <EditIcon color="primary" />
                   </IconButton>
                 </TableCell>
                 <TableCell align="left">
-                  <DeleteExpense expense={expense}/>
+                  <DeleteExpense expense={expense} onDelete={onDelete} />
                 </TableCell>
               </TableRow>
             ))}

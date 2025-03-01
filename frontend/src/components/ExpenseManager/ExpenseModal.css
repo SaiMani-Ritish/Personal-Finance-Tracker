@@ -28,3 +28,9 @@
   margin-bottom: 16px;
   text-align: right;
 }
+
+.button-group {
+  display: flex; 
+  justify-content: flex-end;
+  gap: 1rem;
+}

@@ -18,7 +18,7 @@ exports.addExpense = async (req, res) => {
 
     // Save expense
     await expense.save();
-    console.log('Registering new expense:', { userId, amount, category, description, date });
+
     // Send response
     res.status(201).json({
       message: 'expense registered successfully',
@@ -95,7 +95,6 @@ exports.getExpenses = async (req, res) => {
   try {
     // Get all expenses
     const expenses = await Expense.find();
-    console.log('expenses-', expenses);
     res.json(expenses);
   } catch (error) {
     res.status(500).json({ message: 'Error fetching expenses', error: error.message });

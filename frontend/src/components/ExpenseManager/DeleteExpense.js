@@ -8,7 +8,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 
-export default function DeleteExpense({ expense }) {
+export default function DeleteExpense({ expense, onDelete }) {
     const [open, setOpen] = React.useState(false);
 
     const handleClickOpen = () => {
@@ -40,7 +40,7 @@ export default function DeleteExpense({ expense }) {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>No</Button>
-                    <Button onClick={handleClose} autoFocus>
+                    <Button onClick={() => onDelete(expense._id)}>
                         Yes
                     </Button>
                 </DialogActions>
