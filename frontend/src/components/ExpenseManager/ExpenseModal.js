@@ -4,55 +4,62 @@ import { Button, FormControl, MenuItem, Modal, TextField } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers';
 import './ExpenseModal.css';
 
-export function ExpenseModal() {
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+const dayjs = require('dayjs');
 
+export function ExpenseModal({ open, onSubmit, onClose, expense }) {
+  const [category, setCategory] = React.useState(expense ? expense.category : '');
   const [date, setDate] = React.useState();
+
+  React.useEffect(() => {
+    if (expense) {
+      setCategory(expense.category);
+      setDate(dayjs(expense.date));
+    }
+  }, [expense]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // Handle form submission here
-    console.log({
-      date
-    });
+    // Complete submission first and then clear cateogry
+    onSubmit();
+    setCategory('');
+  };
+
+  const handleClose = () => {
+    setCategory('');
+    onClose();
   };
 
   return (
     <div>
-      <Box className="add-expense-button">
-        <Button type="button" onClick={handleOpen} variant='contained'>
-          Add Expenses
-        </Button>
-      </Box>
       <Modal
         open={open}
         onClose={handleClose}
       >
         <Box className="modal-box">
           <h2>
-            Add Expenses
+            {expense ? 'Edit Expense' : 'Add Expenses'}
           </h2>
           <FormControl className="form" onSubmit={handleSubmit}>
-            <TextField fullWidth className="textfield" label="Amount" variant="outlined" />
+            <TextField fullWidth className="textfield" label="Amount" variant="outlined" value={expense ? expense.amount : ''} />
             <TextField
               className="textfield"
               fullWidth
               select
               label="Category"
+              value={category}
+              onChange={(event) => setCategory(event.target.value)}
             >
-              <MenuItem>
-                Shopping
+              <MenuItem  value="Online Shopping">
+                Online Shopping
               </MenuItem>
-              <MenuItem>
+              <MenuItem value="Groceries">
+                Groceries
+              </MenuItem>
+              <MenuItem value="Rent">
                 Rent
               </MenuItem>
-              <MenuItem>
-                Pet
-              </MenuItem>
             </TextField>
-            <TextField fullWidth className="textfield" label="Description" variant="outlined" />
+            <TextField fullWidth className="textfield" label="Description" variant="outlined" value={expense ? expense.description : ''} />
             <DatePicker
               className="textfield"
               fullWidth
@@ -62,7 +69,7 @@ export function ExpenseModal() {
               onChange={(newValue) => setDate(newValue)}
             />
             <div></div>
-            <Button type="submit" variant="contained" onClick={handleClose}>
+            <Button type="submit" variant="contained" onClick={onSubmit}>
               Submit
             </Button>
           </FormControl>

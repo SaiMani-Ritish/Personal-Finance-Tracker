@@ -1,3 +1,4 @@
+import { Button } from '@mui/material';
 import React from 'react';
 
 function ChatBot() {
@@ -11,7 +12,7 @@ function ChatBot() {
       </div>
       <div className="chat-input">
         <input type="text" placeholder="Type your question..." />
-        <button>Send</button>
+        <Button variant='contained'>Send</Button>
       </div>
     </div>
   );
