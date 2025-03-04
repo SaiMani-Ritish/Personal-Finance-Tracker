@@ -5,9 +5,8 @@ const { TIME_CONSTANTS } = require('../constants/constants');
 // Register new expense
 exports.addExpense = async (req, res) => {
   try {
-    const { userId, amount, category, description, date } = req.body; // Get expense details from request body
+    const { userId, amount, category, description, date } = req.body;
 
-    // Create new expense
     const expense = new Expense({
       userId,
       amount,
@@ -16,12 +15,10 @@ exports.addExpense = async (req, res) => {
       date
     });
 
-    // Save expense
     await expense.save();
 
-    // Send response
     res.status(201).json({
-      message: 'expense registered successfully',
+      message: 'Expense registered successfully',
       expense: {
         userId: expense.userId,
         id: expense._id,
@@ -39,11 +36,9 @@ exports.addExpense = async (req, res) => {
 // Update expense
 exports.updateExpense = async (req, res) => {
   try {
-    // Get expense details from request body
     const expenseId = req.params.id;
     const updatedExpense = req.body;
 
-    // Update expense
     const expense = await Expense.findByIdAndUpdate(expenseId, updatedExpense, { new: true });
 
     if (!expense) {
@@ -59,10 +54,8 @@ exports.updateExpense = async (req, res) => {
 // Delete expense
 exports.deleteExpense = async (req, res) => {
   try {
-    // Get expense details from request body
     const expenseId = req.params.id;
 
-    // Delete expense
     const expense = await Expense.findByIdAndDelete(expenseId);
 
     if (!expense) {
@@ -75,10 +68,9 @@ exports.deleteExpense = async (req, res) => {
   }
 };
 
-// Get expense
+// Get expense by ID
 exports.getExpenseById = async (req, res) => {
   try {
-    // Get expense details
     const expense = await Expense.findById(req.params.id);
 
     if (!expense) {
@@ -86,17 +78,32 @@ exports.getExpenseById = async (req, res) => {
     }
     res.json(expense);
   } catch (error) {
-    res.status(500).json({ message: 'Error fetching expense profile', error: error.message });
+    res.status(500).json({ message: 'Error fetching expense', error: error.message });
   }
 };
 
 // Get all expenses
 exports.getExpenses = async (req, res) => {
   try {
-    // Get all expenses
     const expenses = await Expense.find();
     res.json(expenses);
   } catch (error) {
     res.status(500).json({ message: 'Error fetching expenses', error: error.message });
+  }
+};
+
+// Expense Summary for Dashboard (New API)
+exports.getExpensesSummary = async (req, res) => {
+  try {
+    const expenses = await Expense.find();
+
+    const summary = expenses.reduce((acc, expense) => {
+      acc[expense.category] = (acc[expense.category] || 0) + expense.amount;
+      return acc;
+    }, {});
+
+    res.json(summary);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching expenses summary', error: error.message });
   }
 };

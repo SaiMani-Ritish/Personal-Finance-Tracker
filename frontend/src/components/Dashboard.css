@@ -1,0 +1,42 @@
+/* Create a new CSS file named 'Dashboard.css' in the same directory */
+
+/* Dashboard.css */
+.dashboard-container {
+    padding: 20px;
+    background-color: #f4f4f4;
+}
+
+.bar-chart-container {
+    margin-top: 20px;
+    padding: 20px;
+    background: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.chatbot-container {
+    margin-top: 20px;
+    padding: 20px;
+    background: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    text-align: center;
+}
+
+.chatbot-container input {
+    padding: 10px;
+    width: 60%;
+    margin-right: 10px;
+}
+
+.chatbot-container button {
+    padding: 10px;
+    background-color: #82ca9d;
+    border: none;
+    cursor: pointer;
+}
+
+.chatbot-container p {
+    margin-top: 10px;
+    font-weight: bold;
+}

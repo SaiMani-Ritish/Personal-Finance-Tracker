@@ -5,16 +5,18 @@ const mongoose = require("mongoose");
 const db = require("./models");
 const userRoutes = require('./routes/userRoutes');
 const expenseRoutes = require('./routes/expenseRoutes');
+//const chatbotRoutes = require('./routes/chatbot');
 
 const app = express();
 app.use(express.json());
 app.use(cors({ origin: "http://localhost:3000" }));
 
+
 // Test route
 app.get("/", (req, res) => {
   res.send("API is running...");
 });
-
+//app.use('/api/chatbot', chatbotRoutes);
 // Routes
 app.use('/api/user', userRoutes); // User routes
 app.use('/api/expense', expenseRoutes); // Expense routes

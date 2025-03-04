@@ -1,14 +1,24 @@
 const express = require('express');
 const router = express.Router();
-const { addExpense, getExpenseById, updateExpense, deleteExpense, getExpenses} = require('../controllers/expenseController');
+const { 
+    addExpense, 
+    getExpenseById, 
+    updateExpense, 
+    deleteExpense, 
+    getExpenses, 
+    getExpensesSummary 
+} = require('../controllers/expenseController');
 
 // Public routes
-router.post('/add', addExpense);    // POST /api/expenses
-router.put('/update/:id', updateExpense); // PUT /api/expenses/:id
-router.delete('/delete/:id', deleteExpense);    // DELETE /api/expenses/:id
+router.post('/add', addExpense);       // Add New Expense
+router.put('/update/:id', updateExpense);  // Update Expense
+router.delete('/delete/:id', deleteExpense); // Delete Expense
 
 // Protected routes
-router.get('/list', getExpenses); // GET /api/expenses
-router.get('/:id', getExpenseById); // GET /api/expenses/:id
+router.get('/list', getExpenses);      // Fetch All Expenses
+router.get('/:id', getExpenseById);    // Fetch Expense by ID
+
+// Dashboard Summary Route
+router.get('/summary', getExpensesSummary); // Fetch Expenses Summary for Dashboard
 
 module.exports = router;
