@@ -31,7 +31,8 @@ The **Personal Finance Tracker** is a MERN stack web application designed to hel
 - **Authentication:** (To be added in future versions)  
 - **Version Control:** GitHub  
 
-#### **Installation & Setup**  
+#### **Installation & Setup** 
+
 1. Clone the repository:  
    ```sh
    git clone https://github.com/SaiMani-Ritish/TP-CS628_Team3_Personal-Finance-Tracker.git
@@ -44,7 +45,7 @@ The **Personal Finance Tracker** is a MERN stack web application designed to hel
 3. Start the backend server:  
    ```sh
    cd backend  
-   node server.js  
+   npm start 
    ```
 4. Start the frontend:  
    ```sh
