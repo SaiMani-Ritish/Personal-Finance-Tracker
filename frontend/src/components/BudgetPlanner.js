@@ -24,19 +24,14 @@ function BudgetPlanner() {
   const [newGoalName, setNewGoalName] = useState('');
   const [newGoalAmount, setNewGoalAmount] = useState('');
   const [newGoalDeadline, setNewGoalDeadline] = useState(null);
-  const [expenses, setExpenses] = useState([]);
-  const [newExpenseName, setNewExpenseName] = useState('');
-  const [newExpenseAmount, setNewExpenseAmount] = useState('');
+  const [monthlyExpense, setMonthlyExpense] = useState('');
   const [availableForSaving, setAvailableForSaving] = useState(0);
-
-  // Calculate total expenses
-  const totalExpenses = expenses.reduce((total, expense) => total + parseFloat(expense.amount || 0), 0);
 
   // Calculate available income after expenses
   useEffect(() => {
-    const availableAmount = parseFloat(income || 0) - totalExpenses;
+    const availableAmount = parseFloat(income || 0) - parseFloat(monthlyExpense || 0);
     setAvailableForSaving(availableAmount);
-  }, [income, totalExpenses]);
+  }, [income, monthlyExpense]);
 
   // Add a new goal
   const handleAddGoal = () => {
@@ -66,29 +61,9 @@ function BudgetPlanner() {
     return (amount / monthsDiff).toFixed(2);
   };
 
-  // Add a new expense
-  const handleAddExpense = () => {
-    if (newExpenseName && newExpenseAmount) {
-      const newExpense = {
-        id: Date.now(),
-        name: newExpenseName,
-        amount: parseFloat(newExpenseAmount)
-      };
-      
-      setExpenses([...expenses, newExpense]);
-      setNewExpenseName('');
-      setNewExpenseAmount('');
-    }
-  };
-
   // Remove a goal
   const removeGoal = (id) => {
     setGoals(goals.filter(goal => goal.id !== id));
-  };
-
-  // Remove an expense
-  const removeExpense = (id) => {
-    setExpenses(expenses.filter(expense => expense.id !== id));
   };
 
   // Format currency
@@ -100,159 +75,144 @@ function BudgetPlanner() {
   };
 
   return (
-    <Container maxWidth="lg" sx={{ py: 4, bgcolor: '#f4f4f4', minHeight: '100vh' }}>
-      <Typography variant="h4" gutterBottom>
+    <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+      <Typography variant="h4" component="h1" gutterBottom sx={{ 
+        color: '#000',
+        fontWeight: 600,
+        mb: 4
+      }}>
         Budget Planner
       </Typography>
-      
-      {/* Income Section */}
-      <Paper sx={{ p: 3, mb: 3 }}>
-        <Typography variant="h6" gutterBottom>
-          Monthly Income
-        </Typography>
-        <TextField
-          fullWidth
-          label="Income"
-          type="number"
-          value={income}
-          onChange={(e) => setIncome(e.target.value)}
-          placeholder="0.00"
-          InputProps={{
-            startAdornment: <Typography sx={{ mr: 1 }}>$</Typography>,
-          }}
-        />
-      </Paper>
-      
-      {/* Expenses Section */}
-      <Paper sx={{ p: 3, mb: 3 }}>
-        <Typography variant="h6" gutterBottom>
-          Monthly Expenses
-        </Typography>
-        
-        <Stack spacing={2} sx={{ mb: 3 }}>
-          <TextField
-            fullWidth
-            label="Expense Name"
-            value={newExpenseName}
-            onChange={(e) => setNewExpenseName(e.target.value)}
-            placeholder="e.g., Rent, Utilities"
-          />
-          <TextField
-            fullWidth
-            label="Expense Amount"
-            type="number"
-            value={newExpenseAmount}
-            onChange={(e) => setNewExpenseAmount(e.target.value)}
-            placeholder="0.00"
-            InputProps={{
-              startAdornment: <Typography sx={{ mr: 1 }}>$</Typography>,
-            }}
-          />
-          <Button 
-            variant="contained" 
-            onClick={handleAddExpense}
-            sx={{ 
-              bgcolor: '#1976d2',
-              '&:hover': { bgcolor: '#1565c0' },
-              px: 3
-            }}
-          >
-            Add Expense
-          </Button>
-        </Stack>
-        
-        {expenses.length > 0 && (
-          <List>
-            {expenses.map(expense => (
-              <ListItem
-                key={expense.id}
+    
+      {/* Top Section - Income/Expenses and Saving Summary side by side */}
+      <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 3, mb: 4 }}>
+        {/* Income and Expenses Card */}
+        <Paper elevation={2} sx={{ 
+          p: 3, 
+          borderRadius: 2,
+          bgcolor: '#fff',
+          '&:hover': { boxShadow: 6 },
+          transition: 'box-shadow 0.3s'
+        }}>
+          <Typography variant="h6" gutterBottom sx={{ 
+            color: '#000',
+            fontWeight: 600,
+            mb: 3
+          }}>
+            Monthly Budget
+          </Typography>
+          <Stack spacing={3}>
+            <TextField
+              fullWidth
+              label="Monthly Income"
+              type="number"
+              value={income}
+              onChange={(e) => setIncome(e.target.value)}
+              placeholder="0.00"
+              InputProps={{
+                startAdornment: <Typography sx={{ mr: 1 }}>$</Typography>,
+              }}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  '&:hover fieldset': {
+                    borderColor: '#1976d2',
+                  },
+                },
+              }}
+            />
+            <TextField
+              fullWidth
+              label="Monthly Expenses"
+              type="number"
+              value={monthlyExpense}
+              onChange={(e) => setMonthlyExpense(e.target.value)}
+              placeholder="0.00"
+              InputProps={{
+                startAdornment: <Typography sx={{ mr: 1 }}>$</Typography>,
+              }}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  '&:hover fieldset': {
+                    borderColor: '#1976d2',
+                  },
+                },
+              }}
+            />
+          </Stack>
+        </Paper>
+
+        {/* Saving Summary Card */}
+        <Paper elevation={2} sx={{ 
+          p: 3, 
+          borderRadius: 2,
+          bgcolor: '#fff',
+          '&:hover': { boxShadow: 6 },
+          transition: 'box-shadow 0.3s'
+        }}>
+          <Typography variant="h6" gutterBottom sx={{ 
+            color: '#000',
+            fontWeight: 600,
+            mb: 3
+          }}>
+            Saving Summary
+          </Typography>
+          <Stack spacing={2}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', p: 1 }}>
+              <Typography sx={{ fontWeight: 500 }}>Monthly Income:</Typography>
+              <Typography sx={{ fontWeight: 500 }}>{formatCurrency(parseFloat(income || 0))}</Typography>
+            </Box>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', p: 1 }}>
+              <Typography sx={{ fontWeight: 500 }}>Monthly Expenses:</Typography>
+              <Typography sx={{ fontWeight: 500 }}>{formatCurrency(parseFloat(monthlyExpense || 0))}</Typography>
+            </Box>
+            <Divider sx={{ my: 1 }} />
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', p: 1, bgcolor: '#f5f5f5', borderRadius: 1 }}>
+              <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
+                Available for Saving:
+              </Typography>
+              <Typography 
                 sx={{ 
-                  bgcolor: '#f8f8f8',
-                  borderRadius: 1,
-                  mb: 1,
-                  flexDirection: 'column',
-                  alignItems: 'flex-start'
+                  fontWeight: 600,
+                  color: availableForSaving < 0 ? '#d32f2f' : '#2e7d32'
                 }}
               >
-                <ListItemText
-                  primary={
-                    <Typography variant="subtitle1" fontWeight="bold">
-                      {expense.name}
-                    </Typography>
-                  }
-                  secondary={
-                    <Stack spacing={1} sx={{ mt: 1 }}>
-                      <Typography variant="body2">
-                        Amount: {formatCurrency(expense.amount)}
-                      </Typography>
-                    </Stack>
-                  }
-                />
-                <ListItemSecondaryAction>
-                  <IconButton 
-                    edge="end" 
-                    onClick={() => removeExpense(expense.id)}
-                    sx={{ color: 'error.main' }}
-                  >
-                    <DeleteIcon />
-                  </IconButton>
-                </ListItemSecondaryAction>
-              </ListItem>
-            ))}
-          </List>
-        )}
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
-          <Typography variant="subtitle1" fontWeight="bold">
-            Total Expenses:
-          </Typography>
-          <Typography variant="subtitle1" fontWeight="bold">
-            {formatCurrency(totalExpenses)}
-          </Typography>
-        </Box>
-      </Paper>
-      
-      {/* Saving Summary */}
-      <Paper sx={{ p: 3, mb: 3 }}>
-        <Typography variant="h6" gutterBottom>
-          Saving Summary
-        </Typography>
-        <Stack spacing={2}>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-            <Typography>Monthly Income:</Typography>
-            <Typography>{formatCurrency(parseFloat(income || 0))}</Typography>
-          </Box>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-            <Typography>Monthly Expenses:</Typography>
-            <Typography>{formatCurrency(totalExpenses)}</Typography>
-          </Box>
-          <Divider />
-          <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-            <Typography variant="subtitle1" fontWeight="bold">
-              Available for Saving:
-            </Typography>
-            <Typography 
-              color={availableForSaving < 0 ? 'error' : 'success.main'}
-              fontWeight="bold"
-            >
-              {formatCurrency(availableForSaving)}
-            </Typography>
-          </Box>
-        </Stack>
-      </Paper>
-      
+                {formatCurrency(availableForSaving)}
+              </Typography>
+            </Box>
+          </Stack>
+        </Paper>
+      </Box>
+    
       {/* Goals Section */}
-      <Paper sx={{ p: 3 }}>
-        <Typography variant="h6" gutterBottom>
+      <Paper elevation={2} sx={{ 
+        p: 3, 
+        borderRadius: 2,
+        bgcolor: '#fff',
+        '&:hover': { boxShadow: 6 },
+        transition: 'box-shadow 0.3s'
+      }}>
+        <Typography variant="h6" gutterBottom sx={{ 
+          color: '#000',
+          fontWeight: 600,
+          mb: 3
+        }}>
           Savings Goals
         </Typography>
         
-        <Stack spacing={2} sx={{ mb: 3 }}>
+        <Stack spacing={3} sx={{ mb: 4 }}>
           <TextField
             fullWidth
             label="Goal Name"
             value={newGoalName}
             onChange={(e) => setNewGoalName(e.target.value)}
             placeholder="e.g., Car, House"
+            sx={{
+              '& .MuiOutlinedInput-root': {
+                '&:hover fieldset': {
+                  borderColor: '#1976d2',
+                },
+              },
+            }}
           />
           <TextField
             fullWidth
@@ -264,12 +224,30 @@ function BudgetPlanner() {
             InputProps={{
               startAdornment: <Typography sx={{ mr: 1 }}>$</Typography>,
             }}
+            sx={{
+              '& .MuiOutlinedInput-root': {
+                '&:hover fieldset': {
+                  borderColor: '#1976d2',
+                },
+              },
+            }}
           />
           <DatePicker
             label="Target Date"
             value={newGoalDeadline}
             onChange={(newValue) => setNewGoalDeadline(newValue)}
-            slotProps={{ textField: { fullWidth: true } }}
+            slotProps={{ 
+              textField: { 
+                fullWidth: true,
+                sx: {
+                  '& .MuiOutlinedInput-root': {
+                    '&:hover fieldset': {
+                      borderColor: '#1976d2',
+                    },
+                  },
+                }
+              } 
+            }}
           />
           <Button
             fullWidth
@@ -277,9 +255,18 @@ function BudgetPlanner() {
             onClick={handleAddGoal}
             disabled={!newGoalName || !newGoalAmount || !newGoalDeadline}
             sx={{ 
-              bgcolor: '#82ca9d', 
-              '&:hover': { bgcolor: '#6baf84' },
-              '&.Mui-disabled': { bgcolor: '#e0e0e0' }
+              bgcolor: '#1976d2',
+              color: 'white',
+              py: 1.5,
+              fontWeight: 600,
+              '&:hover': { 
+                bgcolor: '#1565c0',
+                boxShadow: 3
+              },
+              '&.Mui-disabled': { 
+                bgcolor: '#e0e0e0',
+                color: '#9e9e9e'
+              }
             }}
           >
             Add Goal
@@ -287,38 +274,54 @@ function BudgetPlanner() {
         </Stack>
         
         {goals.length > 0 && (
-          <List>
+          <List sx={{ width: '100%' }}>
             {goals.map(goal => (
               <ListItem
                 key={goal.id}
                 sx={{ 
                   bgcolor: '#f8f8f8',
-                  borderRadius: 1,
-                  mb: 1,
+                  borderRadius: 2,
+                  mb: 2,
                   flexDirection: 'column',
-                  alignItems: 'flex-start'
+                  alignItems: 'flex-start',
+                  p: 2,
+                  '&:hover': {
+                    bgcolor: '#f5f5f5',
+                    boxShadow: 2
+                  },
+                  transition: 'all 0.3s'
                 }}
               >
                 <ListItemText
                   primary={
-                    <Typography variant="subtitle1" fontWeight="bold">
+                    <Typography variant="h6" sx={{ 
+                      color: '#000',
+                      fontWeight: 600,
+                      mb: 1
+                    }}>
                       {goal.name}
                     </Typography>
                   }
                   secondary={
                     <Stack spacing={1} sx={{ mt: 1 }}>
-                      <Typography variant="body2">
+                      <Typography variant="body1" sx={{ color: 'text.primary', fontWeight: 500 }}>
                         Target: {formatCurrency(goal.amount)}
                       </Typography>
-                      <Typography variant="body2">
+                      <Typography variant="body1" sx={{ color: 'text.primary', fontWeight: 500 }}>
                         Monthly Saving: {formatCurrency(goal.monthlySavingRequired)}
                       </Typography>
-                      <Typography variant="body2">
+                      <Typography variant="body1" sx={{ color: 'text.primary', fontWeight: 500 }}>
                         By: {dayjs(goal.deadline).format('MMM D, YYYY')}
                       </Typography>
                       {parseFloat(goal.monthlySavingRequired) > availableForSaving && (
-                        <Typography color="error" variant="body2">
-                          Warning: This goal requires more monthly savings than currently available!
+                        <Typography sx={{ 
+                          color: '#d32f2f',
+                          bgcolor: '#ffebee',
+                          p: 1,
+                          borderRadius: 1,
+                          mt: 1
+                        }}>
+                          This goal requires more monthly savings than your current savings!
                         </Typography>
                       )}
                     </Stack>
@@ -328,7 +331,12 @@ function BudgetPlanner() {
                   <IconButton 
                     edge="end" 
                     onClick={() => removeGoal(goal.id)}
-                    sx={{ color: 'error.main' }}
+                    sx={{ 
+                      color: '#d32f2f',
+                      '&:hover': {
+                        bgcolor: '#ffebee'
+                      }
+                    }}
                   >
                     <DeleteIcon />
                   </IconButton>
