@@ -1,8 +1,7 @@
 import * as React from 'react'
 import ExpenseList from './ExpenseList';
 import ExpenseModal from './ExpenseModal';
-import { Box, Button } from '@mui/material';
-import './ExpenseManager.css';
+import { Box, Button, Container, Typography } from '@mui/material';
 import { expenseService } from '../../services/expenseService';
 
 export function ExpenseManager() {
@@ -69,15 +68,26 @@ export function ExpenseManager() {
   };
 
   return (
-    <Box className="expense-manager-box">
-      <Box className="add-expense-button">
-        <Button type="button" variant='contained' onClick={handleOpen}>
-          Add Expenses
+    <Container maxWidth="lg" sx={{ py: 4 }}>
+      <Box sx={{ mb: 4, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <Typography variant="h4" component="h1" sx={{ color: '#2c3e50', fontWeight: 500 }}>
+          Expense Manager
+        </Typography>
+        <Button 
+          variant="contained" 
+          onClick={handleOpen}
+          sx={{ 
+            bgcolor: '#1976d2',
+            '&:hover': { bgcolor: '#1565c0' },
+            px: 3
+          }}
+        >
+          Add Expense
         </Button>
       </Box>
       <ExpenseModal open={open} onSubmit={handleSubmit} onClose={handleClose} expense={selectedExpense} />
       <ExpenseList expenses={expenses} onEdit={handleEdit} onDelete={handleDelete} />
-    </Box>
+    </Container>
   );
 }
 

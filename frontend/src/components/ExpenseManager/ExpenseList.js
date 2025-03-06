@@ -8,47 +8,130 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import EditIcon from '@mui/icons-material/Edit';
 import { Box, IconButton } from '@mui/material';
-import './ExpenseList.css';
 import DeleteExpense from './DeleteExpense';
 
 const dayjs = require('dayjs');
 
 export function ExpenseList({ expenses, onEdit, onDelete }) {
   return (
-    <Box className="expense-list-box">
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+    <Box>
+      <TableContainer 
+        component={Paper} 
+        sx={{ 
+          boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+          borderRadius: 2,
+          overflow: 'hidden'
+        }}
+      >
+        <Table sx={{ minWidth: 650 }} aria-label="expense table">
           <colgroup>
-            <col width="10%" />
+            <col width="15%" />
             <col width="20%" />
-            <col width="30%" />
+            <col width="25%" />
             <col width="20%" />
             <col width="10%" />
             <col width="10%" />
           </colgroup>
           <TableHead>
-            <TableRow>
-              <TableCell align="left">Amount</TableCell>
-              <TableCell align="left">Category</TableCell>
-              <TableCell align="left">Description</TableCell>
-              <TableCell align="left">Date</TableCell>
-              <TableCell align="left">Edit</TableCell>
-              <TableCell align="left">Delete</TableCell>
+            <TableRow sx={{ bgcolor: '#f8f9fa' }}>
+              <TableCell 
+                sx={{ 
+                  fontWeight: 600, 
+                  color: '#2c3e50',
+                  fontSize: '0.95rem',
+                  py: 2
+                }}
+              >
+                Amount
+              </TableCell>
+              <TableCell 
+                sx={{ 
+                  fontWeight: 600, 
+                  color: '#2c3e50',
+                  fontSize: '0.95rem',
+                  py: 2
+                }}
+              >
+                Category
+              </TableCell>
+              <TableCell 
+                sx={{ 
+                  fontWeight: 600, 
+                  color: '#2c3e50',
+                  fontSize: '0.95rem',
+                  py: 2
+                }}
+              >
+                Description
+              </TableCell>
+              <TableCell 
+                sx={{ 
+                  fontWeight: 600, 
+                  color: '#2c3e50',
+                  fontSize: '0.95rem',
+                  py: 2
+                }}
+              >
+                Date
+              </TableCell>
+              <TableCell 
+                sx={{ 
+                  fontWeight: 600, 
+                  color: '#2c3e50',
+                  fontSize: '0.95rem',
+                  py: 2
+                }}
+              >
+                Edit
+              </TableCell>
+              <TableCell 
+                sx={{ 
+                  fontWeight: 600, 
+                  color: '#2c3e50',
+                  fontSize: '0.95rem',
+                  py: 2
+                }}
+              >
+                Delete
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {expenses.map((expense) => (
-              <TableRow key={expense._id}>
-                <TableCell align="left">{expense.amount}</TableCell>
-                <TableCell align="left">{expense.category}</TableCell>
-                <TableCell align="left">{expense.description}</TableCell>
-                <TableCell align="left">{dayjs(expense.date).format('YYYY-MM-DD')}</TableCell>
-                <TableCell align="left">
-                  <IconButton onClick={() => onEdit(expense)}>
-                    <EditIcon color="primary" />
+              <TableRow 
+                key={expense._id}
+                sx={{ 
+                  '&:hover': { bgcolor: '#f8f9fa' },
+                  transition: 'background-color 0.2s'
+                }}
+              >
+                <TableCell sx={{ color: '#2c3e50' }}>
+                  ${parseFloat(expense.amount).toFixed(2)}
+                </TableCell>
+                <TableCell sx={{ color: '#2c3e50' }}>
+                  {expense.category}
+                </TableCell>
+                <TableCell sx={{ color: '#2c3e50' }}>
+                  {expense.description}
+                </TableCell>
+                <TableCell sx={{ color: '#2c3e50' }}>
+                  {dayjs(expense.date).format('MMM D, YYYY')}
+                </TableCell>
+                <TableCell>
+                  <IconButton 
+                    onClick={() => onEdit(expense)}
+                    sx={{ 
+                      color: '#82ca9d',
+                      '&:hover': { 
+                        color: '#6baf84',
+                        bgcolor: 'rgba(130, 202, 157, 0.1)'
+                      }
+                    }}
+                  >
+                    <EditIcon />
                   </IconButton>
                 </TableCell>
-                <TableCell align="left">
+                <TableCell>
                   <DeleteExpense expense={expense} onDelete={onDelete} />
                 </TableCell>
               </TableRow>
@@ -59,4 +142,5 @@ export function ExpenseList({ expenses, onEdit, onDelete }) {
     </Box>
   );
 }
+
 export default ExpenseList;

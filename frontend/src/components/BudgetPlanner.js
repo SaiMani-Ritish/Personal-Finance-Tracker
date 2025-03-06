@@ -1,12 +1,29 @@
 import React, { useState, useEffect } from 'react';
-//import './BudgetPlanner.css'; // Import the custom CSS
+import { 
+  Box, 
+  Button, 
+  TextField, 
+  Typography, 
+  Container, 
+  Paper, 
+  Stack,
+  IconButton,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemSecondaryAction,
+  Divider
+} from '@mui/material';
+import { DatePicker } from '@mui/x-date-pickers';
+import DeleteIcon from '@mui/icons-material/Delete';
+import dayjs from 'dayjs';
 
 function BudgetPlanner() {
   const [income, setIncome] = useState('');
   const [goals, setGoals] = useState([]);
   const [newGoalName, setNewGoalName] = useState('');
   const [newGoalAmount, setNewGoalAmount] = useState('');
-  const [newGoalDeadline, setNewGoalDeadline] = useState('');
+  const [newGoalDeadline, setNewGoalDeadline] = useState(null);
   const [expenses, setExpenses] = useState([]);
   const [newExpenseName, setNewExpenseName] = useState('');
   const [newExpenseAmount, setNewExpenseAmount] = useState('');
@@ -28,14 +45,14 @@ function BudgetPlanner() {
         id: Date.now(),
         name: newGoalName,
         amount: parseFloat(newGoalAmount),
-        deadline: new Date(newGoalDeadline),
-        monthlySavingRequired: calculateMonthlySaving(parseFloat(newGoalAmount), new Date(newGoalDeadline))
+        deadline: newGoalDeadline.toDate(),
+        monthlySavingRequired: calculateMonthlySaving(parseFloat(newGoalAmount), newGoalDeadline.toDate())
       };
       
       setGoals([...goals, newGoal]);
       setNewGoalName('');
       setNewGoalAmount('');
-      setNewGoalDeadline('');
+      setNewGoalDeadline(null);
     }
   };
 
@@ -83,184 +100,245 @@ function BudgetPlanner() {
   };
 
   return (
-    <div className="budget-planner">
-      <h1>Budget Planner</h1>
+    <Container maxWidth="lg" sx={{ py: 4, bgcolor: '#f4f4f4', minHeight: '100vh' }}>
+      <Typography variant="h4" gutterBottom>
+        Budget Planner
+      </Typography>
       
       {/* Income Section */}
-      <div className="income-section">
-        <h2>Monthly Income</h2>
-        <div className="add-goal">
-          <label>Income: $</label>
-          <input 
-            type="number" 
-            value={income} 
-            onChange={(e) => setIncome(e.target.value)}
-            placeholder="0.00"
-          />
-        </div>
-      </div>
+      <Paper sx={{ p: 3, mb: 3 }}>
+        <Typography variant="h6" gutterBottom>
+          Monthly Income
+        </Typography>
+        <TextField
+          fullWidth
+          label="Income"
+          type="number"
+          value={income}
+          onChange={(e) => setIncome(e.target.value)}
+          placeholder="0.00"
+          InputProps={{
+            startAdornment: <Typography sx={{ mr: 1 }}>$</Typography>,
+          }}
+        />
+      </Paper>
       
       {/* Expenses Section */}
-      <div className="expenses-section">
-        <h2>Monthly Expenses</h2>
+      <Paper sx={{ p: 3, mb: 3 }}>
+        <Typography variant="h6" gutterBottom>
+          Monthly Expenses
+        </Typography>
         
-        <div className="add-expense">
-          <input 
-            type="text" 
+        <Stack spacing={2} sx={{ mb: 3 }}>
+          <TextField
+            fullWidth
+            label="Expense Name"
             value={newExpenseName}
             onChange={(e) => setNewExpenseName(e.target.value)}
-            placeholder="Expense name (e.g., Rent, Utilities)" 
+            placeholder="e.g., Rent, Utilities"
           />
-          <div>
-            <span>$ </span>
-            <input 
-              type="number" 
-              value={newExpenseAmount}
-              onChange={(e) => setNewExpenseAmount(e.target.value)}
-              placeholder="Amount" 
-            />
-          </div>
-          <button 
-            className="button-primary"
+          <TextField
+            fullWidth
+            label="Expense Amount"
+            type="number"
+            value={newExpenseAmount}
+            onChange={(e) => setNewExpenseAmount(e.target.value)}
+            placeholder="0.00"
+            InputProps={{
+              startAdornment: <Typography sx={{ mr: 1 }}>$</Typography>,
+            }}
+          />
+          <Button 
+            variant="contained" 
             onClick={handleAddExpense}
+            sx={{ 
+              bgcolor: '#1976d2',
+              '&:hover': { bgcolor: '#1565c0' },
+              px: 3
+            }}
           >
             Add Expense
-          </button>
-        </div>
+          </Button>
+        </Stack>
         
         {expenses.length > 0 && (
-          <div className="expenses-list">
-            <h3>Current Expenses:</h3>
-            <ul>
-              {expenses.map(expense => (
-                <li key={expense.id}>
-                  <div>
-                    <span>{expense.name}</span>
-                    <div>
-                      <span>{formatCurrency(expense.amount)}</span>
-                      <button 
-                        onClick={() => removeExpense(expense.id)}
-                      >
-                        ✕
-                      </button>
-                    </div>
-                  </div>
-                </li>
-              ))}
-            </ul>
-            <div>
-              <strong>Total Expenses: {formatCurrency(totalExpenses)}</strong>
-            </div>
-          </div>
+          <List>
+            {expenses.map(expense => (
+              <ListItem
+                key={expense.id}
+                sx={{ 
+                  bgcolor: '#f8f8f8',
+                  borderRadius: 1,
+                  mb: 1,
+                  flexDirection: 'column',
+                  alignItems: 'flex-start'
+                }}
+              >
+                <ListItemText
+                  primary={
+                    <Typography variant="subtitle1" fontWeight="bold">
+                      {expense.name}
+                    </Typography>
+                  }
+                  secondary={
+                    <Stack spacing={1} sx={{ mt: 1 }}>
+                      <Typography variant="body2">
+                        Amount: {formatCurrency(expense.amount)}
+                      </Typography>
+                    </Stack>
+                  }
+                />
+                <ListItemSecondaryAction>
+                  <IconButton 
+                    edge="end" 
+                    onClick={() => removeExpense(expense.id)}
+                    sx={{ color: 'error.main' }}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </ListItemSecondaryAction>
+              </ListItem>
+            ))}
+          </List>
         )}
-      </div>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
+          <Typography variant="subtitle1" fontWeight="bold">
+            Total Expenses:
+          </Typography>
+          <Typography variant="subtitle1" fontWeight="bold">
+            {formatCurrency(totalExpenses)}
+          </Typography>
+        </Box>
+      </Paper>
       
-      {/* Available for Saving */}
-      <div className="saving-summary">
-        <h2>Saving Summary</h2>
-        <div>
-          <span>Monthly Income:</span>
-          <span>{formatCurrency(parseFloat(income || 0))}</span>
-        </div>
-        <div>
-          <span>Monthly Expenses:</span>
-          <span>{formatCurrency(totalExpenses)}</span>
-        </div>
-        <div>
-          <span><strong>Available for Saving:</strong></span>
-          <span className={availableForSaving < 0 ? 'negative-amount' : 'positive-amount'}>
-            {formatCurrency(availableForSaving)}
-          </span>
-        </div>
-      </div>
+      {/* Saving Summary */}
+      <Paper sx={{ p: 3, mb: 3 }}>
+        <Typography variant="h6" gutterBottom>
+          Saving Summary
+        </Typography>
+        <Stack spacing={2}>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+            <Typography>Monthly Income:</Typography>
+            <Typography>{formatCurrency(parseFloat(income || 0))}</Typography>
+          </Box>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+            <Typography>Monthly Expenses:</Typography>
+            <Typography>{formatCurrency(totalExpenses)}</Typography>
+          </Box>
+          <Divider />
+          <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+            <Typography variant="subtitle1" fontWeight="bold">
+              Available for Saving:
+            </Typography>
+            <Typography 
+              color={availableForSaving < 0 ? 'error' : 'success.main'}
+              fontWeight="bold"
+            >
+              {formatCurrency(availableForSaving)}
+            </Typography>
+          </Box>
+        </Stack>
+      </Paper>
       
       {/* Goals Section */}
-      <div className="goals-section">
-        <h2>Savings Goals</h2>
+      <Paper sx={{ p: 3 }}>
+        <Typography variant="h6" gutterBottom>
+          Savings Goals
+        </Typography>
         
-        <div className="add-goal">
-          <input 
-            type="text" 
+        <Stack spacing={2} sx={{ mb: 3 }}>
+          <TextField
+            fullWidth
+            label="Goal Name"
             value={newGoalName}
             onChange={(e) => setNewGoalName(e.target.value)}
-            placeholder="Goal name (e.g., Car, House)" 
+            placeholder="e.g., Car, House"
           />
-          <div>
-            <span>$ </span>
-            <input 
-              type="number" 
-              value={newGoalAmount}
-              onChange={(e) => setNewGoalAmount(e.target.value)}
-              placeholder="Target amount" 
-            />
-          </div>
-          <div>
-            <span>by </span>
-            <input 
-              type="date" 
-              value={newGoalDeadline}
-              onChange={(e) => setNewGoalDeadline(e.target.value)}
-            />
-          </div>
-          <button 
-            className="button-primary"
+          <TextField
+            fullWidth
+            label="Target Amount"
+            type="number"
+            value={newGoalAmount}
+            onChange={(e) => setNewGoalAmount(e.target.value)}
+            placeholder="0.00"
+            InputProps={{
+              startAdornment: <Typography sx={{ mr: 1 }}>$</Typography>,
+            }}
+          />
+          <DatePicker
+            label="Target Date"
+            value={newGoalDeadline}
+            onChange={(newValue) => setNewGoalDeadline(newValue)}
+            slotProps={{ textField: { fullWidth: true } }}
+          />
+          <Button
+            fullWidth
+            variant="contained"
             onClick={handleAddGoal}
+            disabled={!newGoalName || !newGoalAmount || !newGoalDeadline}
+            sx={{ 
+              bgcolor: '#82ca9d', 
+              '&:hover': { bgcolor: '#6baf84' },
+              '&.Mui-disabled': { bgcolor: '#e0e0e0' }
+            }}
           >
             Add Goal
-          </button>
-        </div>
+          </Button>
+        </Stack>
         
         {goals.length > 0 && (
-          <div className="goals-list">
-            <h3>Current Goals:</h3>
-            <ul>
-              {goals.map(goal => (
-                <li key={goal.id}>
-                  <div>
-                    <span><strong>{goal.name}</strong></span>
-                    <button 
-                      onClick={() => removeGoal(goal.id)}
-                    >
-                      ✕
-                    </button>
-                  </div>
-                  <div>
-                    <span>Target Amount:</span>
-                    <span>{formatCurrency(goal.amount)}</span>
-                  </div>
-                  <div>
-                    <span>Deadline:</span>
-                    <span>
-                      {goal.deadline.toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'short',
-                        day: 'numeric'
-                      })}
-                    </span>
-                  </div>
-                  <div>
-                    <span><strong>Monthly Saving Required:</strong></span>
-                    <span 
-                      className={parseFloat(goal.monthlySavingRequired) > availableForSaving 
-                        ? 'negative-amount' 
-                        : 'positive-amount'}
-                    >
-                      {formatCurrency(goal.monthlySavingRequired)}
-                    </span>
-                  </div>
-                  
-                  {parseFloat(goal.monthlySavingRequired) > availableForSaving && (
-                    <div className="warning-message">
-                      Warning: This goal requires more monthly savings than currently available!
-                    </div>
-                  )}
-                </li>
-              ))}
-            </ul>
-          </div>
+          <List>
+            {goals.map(goal => (
+              <ListItem
+                key={goal.id}
+                sx={{ 
+                  bgcolor: '#f8f8f8',
+                  borderRadius: 1,
+                  mb: 1,
+                  flexDirection: 'column',
+                  alignItems: 'flex-start'
+                }}
+              >
+                <ListItemText
+                  primary={
+                    <Typography variant="subtitle1" fontWeight="bold">
+                      {goal.name}
+                    </Typography>
+                  }
+                  secondary={
+                    <Stack spacing={1} sx={{ mt: 1 }}>
+                      <Typography variant="body2">
+                        Target: {formatCurrency(goal.amount)}
+                      </Typography>
+                      <Typography variant="body2">
+                        Monthly Saving: {formatCurrency(goal.monthlySavingRequired)}
+                      </Typography>
+                      <Typography variant="body2">
+                        By: {dayjs(goal.deadline).format('MMM D, YYYY')}
+                      </Typography>
+                      {parseFloat(goal.monthlySavingRequired) > availableForSaving && (
+                        <Typography color="error" variant="body2">
+                          Warning: This goal requires more monthly savings than currently available!
+                        </Typography>
+                      )}
+                    </Stack>
+                  }
+                />
+                <ListItemSecondaryAction>
+                  <IconButton 
+                    edge="end" 
+                    onClick={() => removeGoal(goal.id)}
+                    sx={{ color: 'error.main' }}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </ListItemSecondaryAction>
+              </ListItem>
+            ))}
+          </List>
         )}
-      </div>
-    </div>
+      </Paper>
+    </Container>
   );
 }
 
