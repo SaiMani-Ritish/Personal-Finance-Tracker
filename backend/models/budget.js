@@ -1,32 +1,48 @@
 const mongoose = require('mongoose');
 
-// Budget schema
+const goalSchema = new mongoose.Schema({
+    id: {
+        type: String,
+        required: true
+    },
+    name: {
+        type: String,
+        required: true
+    },
+    amount: {
+        type: Number,
+        required: true,
+        min: [0, 'Amount cannot be negative']
+    },
+    deadline: {
+        type: Date,
+        required: true
+    },
+    monthlySavingRequired: {
+        type: Number,
+        required: true
+    }
+});
+
 const budgetSchema = new mongoose.Schema({
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true
-  },
-  amount: {
-    type: Number,
-    required: [true, 'Amount is required'],
-    min: [0, 'Amount cannot be negative']
-  },
-  category: {
-    type: String,
-    required: [true, 'Category is required']
-  },
-  period: {
-    type: String,
-    enum: ['monthly', 'yearly'],
-    required: [true, 'Period is required']
-  },
-  startDate: {
-    type: Date,
-    required: [true, 'Start date is required']
-  }
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
+    income: {
+        type: Number,
+        default: 0,
+        min: [0, 'Income cannot be negative']
+    },
+    monthlyExpense: {
+        type: Number,
+        default: 0,
+        min: [0, 'Monthly expense cannot be negative']
+    },
+    goals: [goalSchema]
 }, {
-  timestamps: true
+    timestamps: true
 });
 
 module.exports = mongoose.model('Budget', budgetSchema);

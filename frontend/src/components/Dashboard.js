@@ -10,8 +10,6 @@ const Dashboard = () => {
     const [totalExpense, setTotalExpense] = useState(0);
 
     const COLORS = ['#0088FE', '#00C49F', '#FFBB28'];
-    const EXPENSE_COLOR = COLORS[1];
-    const SAVINGS_COLOR = COLORS[2];
 
     useEffect(() => {
         const fetchExpenses = async () => {
@@ -21,7 +19,7 @@ const Dashboard = () => {
                 const total = data.reduce((sum, expense) => sum + expense.amount, 0);
                 setTotalExpense(total);
             } catch (error) {
-                console.error('Failed to fetch expenses', error);
+                console.error('Failed to fetch expenses:', error);
             }
         };
 
@@ -90,7 +88,7 @@ const Dashboard = () => {
                                         dataKey="value"
                                     >
                                         {budgetData.map((entry) => (
-                                            <Cell key={`cell-${entry.name}`} fill={entry.name === 'Expense' ? EXPENSE_COLOR : SAVINGS_COLOR} />
+                                            <Cell key={`cell-${entry.name}`} fill={entry.name === 'Expense' ? COLORS[1] : COLORS[2]} />
                                         ))}
                                     </Pie>
                                     <Tooltip formatter={(value) => `$${value}`} />

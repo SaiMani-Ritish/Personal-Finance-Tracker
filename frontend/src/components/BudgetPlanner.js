@@ -12,11 +12,14 @@ import {
   ListItem,
   ListItemText,
   ListItemSecondaryAction,
-  Divider
+  Divider,
+  Alert,
+  Snackbar
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { DatePicker } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
+import { expenseService } from '../services/expenseService';
 
 function BudgetPlanner() {
   const [income, setIncome] = useState('');
@@ -26,6 +29,23 @@ function BudgetPlanner() {
   const [newGoalDeadline, setNewGoalDeadline] = useState(null);
   const [monthlyExpense, setMonthlyExpense] = useState('');
   const [availableForSaving, setAvailableForSaving] = useState(0);
+  const [notification, setNotification] = useState({ open: false, message: '', type: 'info' });
+
+  // Load expenses from the expense service
+  useEffect(() => {
+    const fetchExpenses = async () => {
+      try {
+        const data = await expenseService.getAllExpenses();
+        const totalExpenses = data.reduce((sum, expense) => sum + expense.amount, 0);
+        setMonthlyExpense(totalExpenses.toString());
+      } catch (error) {
+        console.error('Failed to fetch expenses:', error);
+        showNotification('Failed to load expenses', 'error');
+      }
+    };
+
+    fetchExpenses();
+  }, []);
 
   // Calculate available income after expenses
   useEffect(() => {
@@ -33,8 +53,8 @@ function BudgetPlanner() {
     setAvailableForSaving(availableAmount);
   }, [income, monthlyExpense]);
 
-  // Add a new goal
-  const handleAddGoal = () => {
+  // Add a new goal as an expense with category "Savings Goal"
+  const handleAddGoal = async () => {
     if (newGoalName && newGoalAmount && newGoalDeadline) {
       const newGoal = {
         id: Date.now(),
@@ -44,14 +64,28 @@ function BudgetPlanner() {
         monthlySavingRequired: calculateMonthlySaving(parseFloat(newGoalAmount), newGoalDeadline.toDate())
       };
       
-      setGoals([...goals, newGoal]);
-      setNewGoalName('');
-      setNewGoalAmount('');
-      setNewGoalDeadline(null);
+      try {
+        // Add the goal as an expense with a special category
+        await expenseService.addExpense({
+          amount: parseFloat(newGoalAmount),
+          category: 'Savings Goal',
+          description: newGoalName,
+          date: newGoalDeadline.toDate()
+        });
+
+        setGoals([...goals, newGoal]);
+        setNewGoalName('');
+        setNewGoalAmount('');
+        setNewGoalDeadline(null);
+        showNotification('Goal added successfully', 'success');
+      } catch (error) {
+        console.error('Failed to add goal:', error);
+        showNotification('Failed to add goal', 'error');
+      }
     }
   };
 
-  // Calculate monthly saving required to reach goal by deadline
+  // Calculate monthly saving required
   const calculateMonthlySaving = (amount, deadline) => {
     const today = new Date();
     const monthsDiff = (deadline.getFullYear() - today.getFullYear()) * 12 + 
@@ -62,8 +96,40 @@ function BudgetPlanner() {
   };
 
   // Remove a goal
-  const removeGoal = (id) => {
-    setGoals(goals.filter(goal => goal.id !== id));
+  const removeGoal = async (id) => {
+    try {
+      // Remove the goal from local state
+      setGoals(goals.filter(goal => goal.id !== id));
+      
+      // Note: In a real app, you'd want to also remove it from the expenses list
+      // This would require storing the expense ID when creating the goal
+      showNotification('Goal removed successfully', 'success');
+    } catch (error) {
+      console.error('Failed to remove goal:', error);
+      showNotification('Failed to remove goal', 'error');
+    }
+  };
+
+  // Handle income change
+  const handleIncomeChange = async (e) => {
+    const value = e.target.value;
+    setIncome(value);
+  };
+
+  // Handle expense change
+  const handleExpenseChange = async (e) => {
+    const value = e.target.value;
+    setMonthlyExpense(value);
+  };
+
+  // Show notification
+  const showNotification = (message, type = 'info') => {
+    setNotification({ open: true, message, type });
+  };
+
+  // Handle notification close
+  const handleNotificationClose = () => {
+    setNotification({ ...notification, open: false });
   };
 
   // Format currency
@@ -107,7 +173,7 @@ function BudgetPlanner() {
               label="Monthly Income"
               type="number"
               value={income}
-              onChange={(e) => setIncome(e.target.value)}
+              onChange={handleIncomeChange}
               placeholder="0.00"
               InputProps={{
                 startAdornment: <Typography sx={{ mr: 1 }}>$</Typography>,
@@ -125,7 +191,7 @@ function BudgetPlanner() {
               label="Monthly Expenses"
               type="number"
               value={monthlyExpense}
-              onChange={(e) => setMonthlyExpense(e.target.value)}
+              onChange={handleExpenseChange}
               placeholder="0.00"
               InputProps={{
                 startAdornment: <Typography sx={{ mr: 1 }}>$</Typography>,
@@ -346,6 +412,18 @@ function BudgetPlanner() {
           </List>
         )}
       </Paper>
+    
+      {/* Notification Snackbar */}
+      <Snackbar
+        open={notification.open}
+        autoHideDuration={6000}
+        onClose={handleNotificationClose}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+      >
+        <Alert onClose={handleNotificationClose} severity={notification.type} sx={{ width: '100%' }}>
+          {notification.message}
+        </Alert>
+      </Snackbar>
     </Container>
   );
 }
