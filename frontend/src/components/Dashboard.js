@@ -1,18 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import { expenseService } from '../services/expenseService';
-import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, Legend, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
 import './Dashboard.css';
 
 const Dashboard = () => {
     const [expenses, setExpenses] = useState([]);
     const [query, setQuery] = useState('');
     const [response, setResponse] = useState('');
+    const [totalExpense, setTotalExpense] = useState(0);
+
+    const COLORS = ['#0088FE', '#00C49F', '#FFBB28'];
+    const EXPENSE_COLOR = COLORS[1];
+    const SAVINGS_COLOR = COLORS[2];
 
     useEffect(() => {
         const fetchExpenses = async () => {
             try {
                 const data = await expenseService.getAllExpenses();
                 setExpenses(data);
+                const total = data.reduce((sum, expense) => sum + expense.amount, 0);
+                setTotalExpense(total);
             } catch (error) {
                 console.error('Failed to fetch expenses', error);
             }
@@ -26,12 +33,18 @@ const Dashboard = () => {
         amount: expense.amount
     }));
 
+    const income = 5000; // Monthly income
+    const savings = income - totalExpense;
+
     const budgetData = [
-        { name: 'Rent', budget: 1000 },
-        { name: 'Groceries', budget: 500 },
-        { name: 'Utilities', budget: 300 },
-        { name: 'Entertainment', budget: 200 },
-        { name: 'Miscellaneous', budget: 100 }
+        { name: 'Expense', value: totalExpense },
+        { name: 'Savings', value: savings }
+    ];
+
+    const allData = [
+        { name: 'Income', value: income },
+        { name: 'Expense', value: totalExpense },
+        { name: 'Savings', value: savings }
     ];
 
     const handleChatbotQuery = () => {
@@ -49,31 +62,49 @@ const Dashboard = () => {
             <h2>Dashboard</h2>
             {expenses.length > 0 ? (
                 <>
-                    <div className="bar-chart-container">
-                        <h3>Expenses Bar Graph</h3>
-                        <ResponsiveContainer width="100%" height={300}>
-                            <BarChart data={barChartData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-                                <CartesianGrid strokeDasharray="3 3" />
-                                <XAxis dataKey="name" />
-                                <YAxis />
-                                <Tooltip />
-                                <Legend />
-                                <Bar dataKey="amount" fill="#82ca9d" barSize={50} />
-                            </BarChart>
-                        </ResponsiveContainer>
-                    </div>
-                    <div className="bar-chart-container">
-                        <h3>Budget Planner</h3>
-                        <ResponsiveContainer width="100%" height={300}>
-                            <BarChart data={budgetData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-                                <CartesianGrid strokeDasharray="3 3" />
-                                <XAxis dataKey="name" />
-                                <YAxis />
-                                <Tooltip />
-                                <Legend />
-                                <Bar dataKey="budget" fill="#8884d8" barSize={50} />
-                            </BarChart>
-                        </ResponsiveContainer>
+                    <div className="charts-container">
+                        <div className="chart-container">
+                            <h3>Expenses Bar Graph</h3>
+                            <ResponsiveContainer width="100%" height={300}>
+                                <BarChart data={barChartData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+                                    <CartesianGrid strokeDasharray="3 3" />
+                                    <XAxis dataKey="name" />
+                                    <YAxis />
+                                    <Tooltip />
+                                    <Bar dataKey="amount" fill="#82ca9d" barSize={50} />
+                                </BarChart>
+                            </ResponsiveContainer>
+                        </div>
+                        <div className="chart-container">
+                            <h3>Budget Overview</h3>
+                            <ResponsiveContainer width="100%" height={300}>
+                                <PieChart>
+                                    <Pie
+                                        data={budgetData}
+                                        cx="50%"
+                                        cy="50%"
+                                        labelLine={false}
+                                        label={({ name, value }) => `${name}: $${value}`}
+                                        outerRadius={100}
+                                        fill="#8884d8"
+                                        dataKey="value"
+                                    >
+                                        {budgetData.map((entry) => (
+                                            <Cell key={`cell-${entry.name}`} fill={entry.name === 'Expense' ? EXPENSE_COLOR : SAVINGS_COLOR} />
+                                        ))}
+                                    </Pie>
+                                    <Tooltip formatter={(value) => `$${value}`} />
+                                    <Legend 
+                                        payload={allData.map((item, index) => ({
+                                            id: item.name,
+                                            type: 'square',
+                                            value: `${item.name}: $${item.value}`,
+                                            color: COLORS[index]
+                                        }))}
+                                    />
+                                </PieChart>
+                            </ResponsiveContainer>
+                        </div>
                     </div>
                     <div className="chatbot-container">
                         <h3>Expense Query Chatbot</h3>
@@ -95,4 +126,3 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-
