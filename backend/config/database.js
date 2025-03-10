@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 require('dotenv').config();
 
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/expense_tracker'; // Get the MongoDB URI from environment variable
+const MONGODB_URI = process.env.MONGODB_URI // Get the MongoDB URI from environment variable
 
 const connectDB = async () => {
   try {

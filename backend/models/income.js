@@ -25,7 +25,16 @@ const incomeSchema = new mongoose.Schema({
     default: Date.now
   }
 }, {
-  timestamps: true
+  timestamps: true, 
+  indexes: [
+    {
+      amount_text_source_text_date_text: {
+        amount: 'text',
+        source: 'text',
+        date: 'text',
+      }
+    }
+  ]
 });
 
 module.exports = mongoose.model('Income', incomeSchema);

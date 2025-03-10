@@ -1,9 +1,9 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
-const mongoose = require("mongoose");
-const db = require("./models");
 const expenseRoutes = require('./routes/expenseRoutes');
+const chatRoutes = require('./routes/chatRoutes');
+const connectDB = require("./config/database");
 
 const app = express();
 app.use(express.json());
@@ -15,20 +15,13 @@ app.get("/", (req, res) => {
 });
 
 app.use('/api/expense', expenseRoutes); // Expense routes
+app.use('/api/chat', chatRoutes); // Chat routes
 
-// Start server and connect to database
+connectDB();
+
 const PORT = process.env.PORT || 8080;
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/expense_tracker';
 
-//  Connect to MongoDB
-mongoose.connect(MONGODB_URI)
-  .then(() => {
-    console.log('Connected to MongoDB successfully');
-    app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
-    });
-  })
-  .catch((error) => {
-    console.error('Error connecting to MongoDB:', error.message);
-    process.exit(1);
-  });
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+

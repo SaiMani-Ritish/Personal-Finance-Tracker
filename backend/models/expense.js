@@ -24,7 +24,16 @@ const expenseSchema = new mongoose.Schema({
     default: Date.now
   }
 }, {
-  timestamps: true
+  timestamps: true,
+  indexes: [
+    {
+      amount_text_category_text_date_text: {
+        amount: 'text',
+        category: 'text',
+        date: 'text',
+      }
+    }
+  ]
 });
 
 module.exports = mongoose.model('Expense', expenseSchema);

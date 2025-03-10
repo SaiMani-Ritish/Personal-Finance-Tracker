@@ -7,8 +7,6 @@ const {
     deleteExpense,
     getExpenses,
     getExpensesSummary,
-    getExpenseDistributionByCategories,
-    getExpenseDistributionByMonth
 } = require('../controllers/expenseController');
 
 // Public routes
