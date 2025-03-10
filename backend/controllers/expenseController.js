@@ -85,7 +85,7 @@ exports.getExpenseById = async (req, res) => {
 // Get all expenses
 exports.getExpenses = async (req, res) => {
   try {
-    const expenses = await Expense.find();
+    const expenses = await Expense.find().sort({ date: -1 });
     res.json(expenses);
   } catch (error) {
     res.status(500).json({ message: 'Error fetching expenses', error: error.message });
