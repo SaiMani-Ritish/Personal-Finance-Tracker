@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const expenseRoutes = require('./routes/expenseRoutes');
 const incomeRoutes = require('./routes/incomeRoutes');
 const budgetRoutes = require('./routes/budgetRoutes');
+const chatRoutes = require('./routes/chatRoutes');
 const connectDB = require("./config/database");
 
 const app = express();
@@ -20,6 +21,7 @@ app.get("/", (req, res) => {
 app.use('/api/expense', expenseRoutes); // Expense routes
 app.use('/api/income', incomeRoutes); // Income routes
 app.use('/api/budget', budgetRoutes); // Budget routes
+app.use('/api/chat', chatRoutes); // Chat routes
 
 connectDB();
 
