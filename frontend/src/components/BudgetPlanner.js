@@ -18,7 +18,6 @@ import {
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { DatePicker } from '@mui/x-date-pickers';
-import dayjs from 'dayjs';
 import { expenseService } from '../services/expenseService';
 import { incomeService } from '../services/incomeService';
 import { budgetService } from '../services/budgetService';
@@ -319,152 +318,156 @@ function BudgetPlanner() {
           Savings Goals
         </Typography>
         
-        <Stack spacing={3} sx={{ mb: 4 }}>
-          <TextField
-            fullWidth
-            label="Goal Name"
-            value={newGoalName}
-            onChange={(e) => setNewGoalName(e.target.value)}
-            placeholder="e.g., Car, House"
-            sx={{
-              '& .MuiOutlinedInput-root': {
-                '&:hover fieldset': {
-                  borderColor: '#1976d2',
-                },
-              },
-            }}
-          />
-          <TextField
-            fullWidth
-            label="Target Amount"
-            type="number"
-            value={newGoalAmount}
-            onChange={(e) => setNewGoalAmount(e.target.value)}
-            placeholder="0.00"
-            InputProps={{
-              startAdornment: <Typography sx={{ mr: 1 }}>$</Typography>,
-            }}
-            sx={{
-              '& .MuiOutlinedInput-root': {
-                '&:hover fieldset': {
-                  borderColor: '#1976d2',
-                },
-              },
-            }}
-          />
-          <DatePicker
-            label="Target Date"
-            value={newGoalDeadline}
-            onChange={(newValue) => setNewGoalDeadline(newValue)}
-            slotProps={{ 
-              textField: { 
-                fullWidth: true,
-                sx: {
+        <Box sx={{ display: 'flex', gap: 4 }}>
+          {/* Left side - Goal Entry */}
+          <Box sx={{ flex: 1 }}>
+            <Typography variant="subtitle1" gutterBottom sx={{ fontWeight: 500 }}>
+              Add New Goal
+            </Typography>
+            <Stack spacing={3}>
+              <TextField
+                fullWidth
+                label="Goal Name"
+                value={newGoalName}
+                onChange={(e) => setNewGoalName(e.target.value)}
+                placeholder="e.g., Car, House"
+                sx={{
                   '& .MuiOutlinedInput-root': {
                     '&:hover fieldset': {
                       borderColor: '#1976d2',
                     },
                   },
-                }
-              } 
-            }}
-          />
-          <Button
-            fullWidth
-            variant="contained"
-            onClick={handleAddGoal}
-            disabled={!newGoalName || !newGoalAmount || !newGoalDeadline}
-            sx={{ 
-              bgcolor: '#1976d2',
-              color: 'white',
-              py: 1.5,
-              fontWeight: 600,
-              '&:hover': { 
-                bgcolor: '#1565c0',
-                boxShadow: 3
-              },
-              '&.Mui-disabled': { 
-                bgcolor: '#e0e0e0',
-                color: '#9e9e9e'
-              }
-            }}
-          >
-            Add Goal
-          </Button>
-        </Stack>
-        
-        {goals.length > 0 && (
-          <List sx={{ width: '100%' }}>
-            {goals.map(goal => (
-              <ListItem
-                key={goal.id}
-                sx={{ 
-                  bgcolor: '#f8f8f8',
-                  borderRadius: 2,
-                  mb: 2,
-                  flexDirection: 'column',
-                  alignItems: 'flex-start',
-                  p: 2,
-                  '&:hover': {
-                    bgcolor: '#f5f5f5',
-                    boxShadow: 2
+                }}
+              />
+              <TextField
+                fullWidth
+                label="Target Amount"
+                type="number"
+                value={newGoalAmount}
+                onChange={(e) => setNewGoalAmount(e.target.value)}
+                placeholder="0.00"
+                InputProps={{
+                  startAdornment: <Typography sx={{ mr: 1 }}>$</Typography>,
+                }}
+                sx={{
+                  '& .MuiOutlinedInput-root': {
+                    '&:hover fieldset': {
+                      borderColor: '#1976d2',
+                    },
                   },
-                  transition: 'all 0.3s'
+                }}
+              />
+              <DatePicker
+                label="Target Date"
+                value={newGoalDeadline}
+                onChange={(newValue) => setNewGoalDeadline(newValue)}
+                slotProps={{ 
+                  textField: { 
+                    fullWidth: true,
+                    sx: {
+                      '& .MuiOutlinedInput-root': {
+                        '&:hover fieldset': {
+                          borderColor: '#1976d2',
+                        },
+                      },
+                    }
+                  } 
+                }}
+              />
+              <Button
+                fullWidth
+                variant="contained"
+                onClick={handleAddGoal}
+                disabled={!newGoalName || !newGoalAmount || !newGoalDeadline}
+                sx={{ 
+                  bgcolor: '#1976d2',
+                  color: 'white',
+                  py: 1.5,
+                  fontWeight: 600,
+                  '&:hover': { 
+                    bgcolor: '#1565c0',
+                    boxShadow: 3
+                  },
+                  '&.Mui-disabled': { 
+                    bgcolor: '#e0e0e0',
+                    color: '#9e9e9e'
+                  }
                 }}
               >
-                <ListItemText
-                  primary={
-                    <Typography variant="h6" sx={{ 
-                      color: '#000',
-                      fontWeight: 600,
-                      mb: 1
-                    }}>
-                      {goal.name}
-                    </Typography>
-                  }
-                  secondary={
-                    <Stack spacing={1} sx={{ mt: 1 }}>
-                      <Typography variant="body1" sx={{ color: 'text.primary', fontWeight: 500 }}>
-                        Target: {formatCurrency(goal.amount)}
-                      </Typography>
-                      <Typography variant="body1" sx={{ color: 'text.primary', fontWeight: 500 }}>
-                        Required Monthly Saving: {formatCurrency(goal.monthlySavingRequired)}
-                      </Typography>
-                      <Typography variant="body1" sx={{ color: 'text.primary', fontWeight: 500 }}>
-                        By: {dayjs(goal.deadline).format('MMM D, YYYY')}
-                      </Typography>
-                      {parseFloat(goal.monthlySavingRequired) > availableForSaving && (
-                        <Typography sx={{ 
-                          color: '#d32f2f',
-                          bgcolor: '#ffebee',
-                          p: 1,
-                          borderRadius: 1,
-                          mt: 1
-                        }}>
-                          This goal requires more monthly savings than your current savings!
-                        </Typography>
-                      )}
-                    </Stack>
-                  }
-                />
-                <ListItemSecondaryAction>
-                  <IconButton 
-                    edge="end" 
-                    onClick={() => removeGoal(goal.id)}
+                Add Goal
+              </Button>
+            </Stack>
+          </Box>
+
+          {/* Right side - Goals List */}
+          <Box sx={{ flex: 1 }}>
+            <Typography variant="subtitle1" gutterBottom sx={{ fontWeight: 500 }}>
+              Current Goals
+            </Typography>
+            {goals.length > 0 ? (
+              <List sx={{ width: '100%', maxHeight: '400px', overflow: 'auto' }}>
+                {goals.map(goal => (
+                  <ListItem
+                    key={goal.id}
                     sx={{ 
-                      color: '#d32f2f',
+                      bgcolor: '#f8f8f8',
+                      borderRadius: 2,
+                      mb: 2,
+                      flexDirection: 'column',
+                      alignItems: 'flex-start',
+                      p: 2,
                       '&:hover': {
-                        bgcolor: '#ffebee'
-                      }
+                        bgcolor: '#f5f5f5',
+                        boxShadow: 2
+                      },
+                      transition: 'all 0.3s'
                     }}
                   >
-                    <DeleteIcon />
-                  </IconButton>
-                </ListItemSecondaryAction>
-              </ListItem>
-            ))}
-          </List>
-        )}
+                    <ListItemText
+                      primary={
+                        <Typography variant="subtitle1" sx={{ fontWeight: 600, color: '#1976d2' }}>
+                          {goal.name}
+                        </Typography>
+                      }
+                      secondary={
+                        <Box sx={{ mt: 1 }}>
+                          <Typography variant="body2" sx={{ color: '#666' }}>
+                            Target Amount: {formatCurrency(goal.amount)}
+                          </Typography>
+                          <Typography variant="body2" sx={{ color: '#666' }}>
+                            Target Date: {new Date(goal.deadline).toLocaleDateString()}
+                          </Typography>
+                          <Typography variant="body2" sx={{ color: '#666', mt: 1 }}>
+                            Required Monthly Saving: {formatCurrency(goal.monthlySavingRequired)}
+                          </Typography>
+                        </Box>
+                      }
+                    />
+                    <ListItemSecondaryAction>
+                      <IconButton 
+                        edge="end" 
+                        aria-label="delete"
+                        onClick={() => removeGoal(goal.id)}
+                        sx={{
+                          color: '#d32f2f',
+                          '&:hover': {
+                            bgcolor: 'rgba(211, 47, 47, 0.04)'
+                          }
+                        }}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    </ListItemSecondaryAction>
+                  </ListItem>
+                ))}
+              </List>
+            ) : (
+              <Typography variant="body2" sx={{ color: '#666', mt: 2 }}>
+                No savings goals set yet.
+              </Typography>
+            )}
+          </Box>
+        </Box>
       </Paper>
     
       {/* Notification Snackbar */}
