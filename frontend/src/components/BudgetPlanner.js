@@ -227,7 +227,7 @@ function BudgetPlanner() {
             />
             <TextField
               fullWidth
-              label="Monthly Expenses"
+              label="Total Monthly Expenses"
               type="number"
               value={monthlyExpense}
               onChange={handleExpenseChange}
@@ -267,7 +267,7 @@ function BudgetPlanner() {
               <Typography sx={{ fontWeight: 500 }}>{formatCurrency(parseFloat(income || 0))}</Typography>
             </Box>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', p: 1 }}>
-              <Typography sx={{ fontWeight: 500 }}>Monthly Expenses:</Typography>
+              <Typography sx={{ fontWeight: 500 }}> Average Monthly Expenses:</Typography>
               <Typography sx={{ fontWeight: 500 }}>{formatCurrency(parseFloat(monthlyExpense || 0))}</Typography>
             </Box>
             <Divider sx={{ my: 1 }} />
