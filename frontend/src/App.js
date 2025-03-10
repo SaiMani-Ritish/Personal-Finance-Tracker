@@ -7,6 +7,7 @@ import ExpenseManager from './components/ExpenseManager/ExpenseManager';
 import BudgetPlanner from './components/BudgetPlanner';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import Chat from './components/Chat/Chat';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
             <Route path="/" element={<Dashboard />} />
             <Route path="/expenses" element={<ExpenseManager />} />
             <Route path="/budget" element={<BudgetPlanner />} />
+            <Route path="/chat" element={<Chat />} />
           </Routes>
         </div>
       </Router>

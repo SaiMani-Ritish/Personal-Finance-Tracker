@@ -1,25 +1,52 @@
-# Getting Started with Backend
+# Getting Started 
+
+## Setup for AI Model Usage
+#### Run Ollama Server 
+- Open New Terminal
+- `curl -fsSL https://ollama.com/install.sh | sh`
+- `ollama serve`
+
+#### Pull and Chat with a Large Language Model (LLM) Conversational AI
+- Open New Terminal
+- `ollama pull gemma2:2b`
 
 ## Steps to Run the Backend
-1. Navigate to the backend directory: `cd backend`
-2. Install dependencies: `npm install`
-3. Start the server: `npm start`
+- Open new terminal.
+- Navigate to the backend directory: `cd backend`
+- Install dependencies: `npm install`
+- Start the server: `npm start`
    - The server will run at [http://localhost:8080/](http://localhost:8080/).
+
 
 ## Database Connection
 - This project uses the MongoDB database.
-
 ### Installing MongoDB
 - Install [MongoDB](https://www.mongodb.com/docs/manual/installation/#mongodb-installation-tutorials) by following instructions.
 - Start MongoDB: `brew services start mongodb-community`
 - Stop MongoDB: `brew services stop mongodb-community`
 
-### Script to Generate the Database
-- To update the database schema while preserving existing data:
+### Generate the Database
+- Create index on expenses collection with following configuration. (Required for AI Chat)
+    ```
+    amount_text_category_text_date_text: {
+        amount: 'text',
+        category: 'text',
+        date: 'text',
+    }
+    ```
+- Create index on income collection with following configuration. (Required for AI Chat)
+   ```
+    amount_text_source_text_date_text: {
+        amount: 'text',
+        source: 'text',
+        date: 'text',
+    }
+   ```
+- Script To update the database schema while preserving existing data:
   ```sh
   node backend/scripts/initMongoDB.js
   ```
-- To drop and recreate the database (erasing all data):
+- Script To drop and recreate the database (erasing all data):
   ```sh
   node backend/scripts/initMongoDB.js --erase
   ```
