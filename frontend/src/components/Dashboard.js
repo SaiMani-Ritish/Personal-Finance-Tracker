@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { expenseService } from '../services/expenseService';
+import { budgetService } from '../services/budgetService';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
 import './Dashboard.css';
 
@@ -8,22 +9,30 @@ const Dashboard = () => {
     const [query, setQuery] = useState('');
     const [response, setResponse] = useState('');
     const [totalExpense, setTotalExpense] = useState(0);
+    const [income, setIncome] = useState(0);
 
     const COLORS = ['#0088FE', '#00C49F', '#FFBB28'];
 
     useEffect(() => {
-        const fetchExpenses = async () => {
+        const fetchData = async () => {
             try {
-                const data = await expenseService.getAllExpenses();
-                setExpenses(data);
-                const total = data.reduce((sum, expense) => sum + expense.amount, 0);
+                // Fetch expenses
+                const expenseData = await expenseService.getAllExpenses();
+                setExpenses(expenseData);
+                const total = expenseData.reduce((sum, expense) => sum + expense.amount, 0);
                 setTotalExpense(total);
+
+                // Fetch budget data for income
+                const budgetData = await budgetService.getBudget();
+                if (budgetData.data && budgetData.data.income) {
+                    setIncome(budgetData.data.income);
+                }
             } catch (error) {
-                console.error('Failed to fetch expenses:', error);
+                console.error('Failed to fetch data:', error);
             }
         };
 
-        fetchExpenses();
+        fetchData();
     }, []);
 
     const barChartData = expenses.map(expense => ({
@@ -31,7 +40,6 @@ const Dashboard = () => {
         amount: expense.amount
     }));
 
-    const income = 5000; // Monthly income
     const savings = income - totalExpense;
 
     const budgetData = [

@@ -20,6 +20,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { DatePicker } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
 import { expenseService } from '../services/expenseService';
+import { incomeService } from '../services/incomeService';
+import { budgetService } from '../services/budgetService';
 
 function BudgetPlanner() {
   const [income, setIncome] = useState('');
@@ -31,20 +33,39 @@ function BudgetPlanner() {
   const [availableForSaving, setAvailableForSaving] = useState(0);
   const [notification, setNotification] = useState({ open: false, message: '', type: 'info' });
 
-  // Load expenses from the expense service
+  // Load expenses, income, and budget data
   useEffect(() => {
-    const fetchExpenses = async () => {
+    const fetchData = async () => {
       try {
-        const data = await expenseService.getAllExpenses();
-        const totalExpenses = data.reduce((sum, expense) => sum + expense.amount, 0);
+        // Fetch expenses
+        const expenseData = await expenseService.getAllExpenses();
+        const totalExpenses = expenseData.reduce((sum, expense) => sum + expense.amount, 0);
         setMonthlyExpense(totalExpenses.toString());
+
+        // Fetch income
+        const incomeData = await incomeService.getAllIncomes();
+        if (incomeData.data && incomeData.data.length > 0) {
+          const totalIncome = incomeData.data.reduce((sum, inc) => sum + inc.amount, 0);
+          setIncome(totalIncome.toString());
+        }
+
+        // Fetch budget details including goals
+        const budgetData = await budgetService.getBudget();
+        if (budgetData.data) {
+          if (budgetData.data.income) {
+            setIncome(budgetData.data.income.toString());
+          }
+          if (budgetData.data.goals) {
+            setGoals(budgetData.data.goals);
+          }
+        }
       } catch (error) {
-        console.error('Failed to fetch expenses:', error);
-        showNotification('Failed to load expenses', 'error');
+        console.error('Failed to fetch data:', error);
+        showNotification('Failed to load data', 'error');
       }
     };
 
-    fetchExpenses();
+    fetchData();
   }, []);
 
   // Calculate available income after expenses
@@ -53,11 +74,11 @@ function BudgetPlanner() {
     setAvailableForSaving(availableAmount);
   }, [income, monthlyExpense]);
 
-  // Add a new goal as an expense with category "Savings Goal"
+  // Add a new goal
   const handleAddGoal = async () => {
     if (newGoalName && newGoalAmount && newGoalDeadline) {
       const newGoal = {
-        id: Date.now(),
+        id: Date.now().toString(),
         name: newGoalName,
         amount: parseFloat(newGoalAmount),
         deadline: newGoalDeadline.toDate(),
@@ -65,15 +86,13 @@ function BudgetPlanner() {
       };
       
       try {
-        // Add the goal as an expense with a special category
-        await expenseService.addExpense({
-          amount: parseFloat(newGoalAmount),
-          category: 'Savings Goal',
-          description: newGoalName,
-          date: newGoalDeadline.toDate()
+        const updatedGoals = [...goals, newGoal];
+        await budgetService.updateBudget({
+          monthlyIncome: parseFloat(income),
+          goals: updatedGoals
         });
 
-        setGoals([...goals, newGoal]);
+        setGoals(updatedGoals);
         setNewGoalName('');
         setNewGoalAmount('');
         setNewGoalDeadline(null);
@@ -98,11 +117,13 @@ function BudgetPlanner() {
   // Remove a goal
   const removeGoal = async (id) => {
     try {
-      // Remove the goal from local state
-      setGoals(goals.filter(goal => goal.id !== id));
-      
-      // Note: In a real app, you'd want to also remove it from the expenses list
-      // This would require storing the expense ID when creating the goal
+      const updatedGoals = goals.filter(goal => goal.id !== id);
+      await budgetService.updateBudget({
+        monthlyIncome: parseFloat(income),
+        goals: updatedGoals
+      });
+
+      setGoals(updatedGoals);
       showNotification('Goal removed successfully', 'success');
     } catch (error) {
       console.error('Failed to remove goal:', error);
@@ -114,6 +135,24 @@ function BudgetPlanner() {
   const handleIncomeChange = async (e) => {
     const value = e.target.value;
     setIncome(value);
+    try {
+      // Update income in both income and budget services
+      await incomeService.addIncome({
+        amount: parseFloat(value),
+        source: 'Monthly Income',
+        description: 'Monthly Income from Budget Planner'
+      });
+
+      await budgetService.updateBudget({
+        monthlyIncome: parseFloat(value),
+        goals: goals
+      });
+
+      showNotification('Income updated successfully', 'success');
+    } catch (error) {
+      console.error('Failed to update income:', error);
+      showNotification('Failed to update income', 'error');
+    }
   };
 
   // Handle expense change
@@ -374,7 +413,7 @@ function BudgetPlanner() {
                         Target: {formatCurrency(goal.amount)}
                       </Typography>
                       <Typography variant="body1" sx={{ color: 'text.primary', fontWeight: 500 }}>
-                        Monthly Saving: {formatCurrency(goal.monthlySavingRequired)}
+                        Required Monthly Saving: {formatCurrency(goal.monthlySavingRequired)}
                       </Typography>
                       <Typography variant="body1" sx={{ color: 'text.primary', fontWeight: 500 }}>
                         By: {dayjs(goal.deadline).format('MMM D, YYYY')}
