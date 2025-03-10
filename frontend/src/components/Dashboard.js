@@ -6,8 +6,6 @@ import './Dashboard.css';
 
 const Dashboard = () => {
     const [expenses, setExpenses] = useState([]);
-    const [query, setQuery] = useState('');
-    const [response, setResponse] = useState('');
     const [totalExpense, setTotalExpense] = useState(0);
     const [income, setIncome] = useState(0);
 
@@ -52,16 +50,6 @@ const Dashboard = () => {
         { name: 'Expense', value: totalExpense },
         { name: 'Savings', value: savings }
     ];
-
-    const handleChatbotQuery = () => {
-        if (query.toLowerCase().includes('groceries')) {
-            setResponse('You spent $500 on Groceries this month.');
-        } else if (query.toLowerCase().includes('rent')) {
-            setResponse('Your Rent budget is set to $1000.');
-        } else {
-            setResponse('Sorry, I cannot understand the query.');
-        }
-    };
 
     return (
         <div className="dashboard-container">
@@ -111,17 +99,6 @@ const Dashboard = () => {
                                 </PieChart>
                             </ResponsiveContainer>
                         </div>
-                    </div>
-                    <div className="chatbot-container">
-                        <h3>Expense Query Chatbot</h3>
-                        <input 
-                            type="text" 
-                            placeholder="Ask about your expenses..." 
-                            value={query} 
-                            onChange={(e) => setQuery(e.target.value)} 
-                        />
-                        <button onClick={handleChatbotQuery}>Ask</button>
-                        <p>{response}</p>
                     </div>
                 </>
             ) : (
