@@ -30,6 +30,7 @@ function BudgetPlanner() {
   const [newGoalAmount, setNewGoalAmount] = useState('');
   const [newGoalDeadline, setNewGoalDeadline] = useState(null);
   const [monthlyExpense, setMonthlyExpense] = useState('');
+  const [averageMonthlyExpense, setAverageMonthlyExpense] = useState(0);
   const [availableForSaving, setAvailableForSaving] = useState(0);
   const [notification, setNotification] = useState({ open: false, message: '', type: 'info' });
 
@@ -40,7 +41,20 @@ function BudgetPlanner() {
         // Fetch expenses
         const expenseData = await expenseService.getAllExpenses();
         const totalExpenses = expenseData.reduce((sum, expense) => sum + expense.amount, 0);
+        
+        // Calculate unique months from expenses
+        const uniqueMonths = new Set(
+          expenseData.map(expense => {
+            const date = new Date(expense.date);
+            return `${date.getFullYear()}-${date.getMonth()}`;
+          })
+        );
+        
+        const numberOfMonths = uniqueMonths.size || 1; // Use 1 if no months to avoid division by zero
+        const averageExpense = totalExpenses / numberOfMonths;
+        
         setMonthlyExpense(totalExpenses.toString());
+        setAverageMonthlyExpense(averageExpense);
 
         // Fetch income
         const incomeData = await incomeService.getAllIncomes();
@@ -70,9 +84,10 @@ function BudgetPlanner() {
 
   // Calculate available income after expenses
   useEffect(() => {
-    const availableAmount = parseFloat(income || 0) - parseFloat(monthlyExpense || 0);
-    setAvailableForSaving(availableAmount);
-  }, [income, monthlyExpense]);
+    const monthlyIncome = parseFloat(income || 0);
+    const averageSavings = monthlyIncome - averageMonthlyExpense;
+    setAvailableForSaving(averageSavings);
+  }, [income, averageMonthlyExpense]);
 
   // Add a new goal
   const handleAddGoal = async () => {
@@ -268,12 +283,12 @@ function BudgetPlanner() {
             </Box>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', p: 1 }}>
               <Typography sx={{ fontWeight: 500 }}> Average Monthly Expenses:</Typography>
-              <Typography sx={{ fontWeight: 500 }}>{formatCurrency(parseFloat(monthlyExpense || 0))}</Typography>
+              <Typography sx={{ fontWeight: 500 }}>{formatCurrency(averageMonthlyExpense)}</Typography>
             </Box>
             <Divider sx={{ my: 1 }} />
             <Box sx={{ display: 'flex', justifyContent: 'space-between', p: 1, bgcolor: '#f5f5f5', borderRadius: 1 }}>
               <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
-                Available for Saving:
+                Average Monthly Savings:
               </Typography>
               <Typography 
                 sx={{ 
