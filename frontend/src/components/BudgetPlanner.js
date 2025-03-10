@@ -218,7 +218,7 @@ function BudgetPlanner() {
             fontWeight: 600,
             mb: 3
           }}>
-            Monthly Budget
+             Budget Details
           </Typography>
           <Stack spacing={3}>
             <TextField
@@ -241,7 +241,7 @@ function BudgetPlanner() {
             />
             <TextField
               fullWidth
-              label="Total Monthly Expenses"
+              label="Total Expenses"
               type="number"
               value={monthlyExpense}
               onChange={handleExpenseChange}
