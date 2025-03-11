@@ -87,20 +87,23 @@ const Dashboard = () => {
                     <div className="charts-container">
                         <div className="chart-container">
                             <h3>Expense Categories</h3>
-                            <ResponsiveContainer width="100%" height={300}>
+                            <ResponsiveContainer width="100%" height={500}>
                                 <BarChart 
                                     data={barChartData} 
-                                    margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                                    margin={{ top: 20, right: 30, left: 20, bottom: 85 }}
                                     animationDuration={1000}
                                 >
-                                    <CartesianGrid strokeDasharray="3 3" />
-                                    <XAxis dataKey="name" />
-                                    <YAxis />
+                                    <XAxis dataKey="name" 
+                                        label={{ value: 'Categories', position: 'insideBottom', offset: -82 }}
+                                        angle={-70} tick={{ textAnchor: "end", fontSize: 14 }}
+                                        tickFormatter={(value) => value.length > 7 ? `${value.slice(0, 11)}...` : value}
+                                    />
+                                    <YAxis label={{ value: 'Total Amount', angle: -90, position: 'insideLeft', offset: -10, dy: 20 }} />
                                     <Tooltip formatter={(value) => `$${value.toFixed(2)}`} />
                                     <Bar 
                                         dataKey="amount" 
                                         fill="#82ca9d" 
-                                        barSize={50}
+                                        // barSize={50}
                                         animationBegin={0}
                                         animationDuration={1000}
                                     />
@@ -109,14 +112,14 @@ const Dashboard = () => {
                         </div>
                         <div className="chart-container">
                             <h3>Budget Overview</h3>
-                            <ResponsiveContainer width="100%" height={300}>
+                            <ResponsiveContainer width="100%" height={500}>
                                 <PieChart>
                                     <Pie
                                         data={budgetData}
                                         cx="50%"
                                         cy="50%"
                                         labelLine={false}
-                                        outerRadius={100}
+                                        outerRadius={150}
                                         fill="#8884d8"
                                         dataKey="value"
                                         animationBegin={0}
