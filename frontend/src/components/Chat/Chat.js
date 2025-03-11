@@ -81,7 +81,7 @@ const Chat = () => {
                 disabled={isLoading}
             />
             <Button variant="contained" onClick={handleSubmit} disabled={isLoading}>Send</Button>
-            <Typography variant="body1" component="div" sx={{ marginTop: 2 }}>
+            <Typography variant="body1" component="div" sx={{ marginTop: 2}}>
                 <h3 sx={{ marginBottom: 2 }}>Response: {isLoading ? (
                     <CircularProgress size={15} sx = {{ marginLeft: 1 }}/>
                 ) : ''} </h3>

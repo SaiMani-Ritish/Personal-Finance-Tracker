@@ -81,7 +81,7 @@ const Dashboard = () => {
 
     return (
         <div className="dashboard-container">
-            <h2>Dashboard</h2>
+            {/* <h2>Dashboard</h2> */}
             {expenses.length > 0 ? (
                 <>
                     <div className="charts-container">

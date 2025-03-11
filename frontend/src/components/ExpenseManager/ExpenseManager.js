@@ -71,7 +71,7 @@ export function ExpenseManager() {
     <Container maxWidth="lg" sx={{ py: 4 }}>
       <Box sx={{ mb: 4, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <Typography variant="h4" component="h1" sx={{ color: '#2c3e50', fontWeight: 500 }}>
-          Expense Manager
+          {/* Expense Manager */}
         </Typography>
         <Button 
           variant="contained" 

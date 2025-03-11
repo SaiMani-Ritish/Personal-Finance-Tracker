@@ -200,7 +200,7 @@ function BudgetPlanner() {
         fontWeight: 600,
         mb: 4
       }}>
-        Budget Planner
+        {/* Budget Planner */}
       </Typography>
     
       {/* Top Section - Income/Expenses and Saving Summary side by side */}
