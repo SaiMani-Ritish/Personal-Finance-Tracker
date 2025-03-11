@@ -1,9 +1,14 @@
-/* Create a new CSS file named 'Dashboard.css' in the same directory */
 
-/* Dashboard.css */
 .dashboard-container {
     padding: 20px;
     background-color: #f4f4f4;
+}
+
+.dashboard-container h2 {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #000;
+    margin-bottom: 1.5rem;
 }
 
 .charts-container {
@@ -18,6 +23,15 @@
     background: white;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
+    height: 400px;
+}
+
+.chart-container h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #000;
+    margin-bottom: 1rem;
+    text-align: center;
 }
 
 .chatbot-container {

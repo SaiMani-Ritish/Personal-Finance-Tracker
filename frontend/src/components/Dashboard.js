@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { expenseService } from '../services/expenseService';
 import { budgetService } from '../services/budgetService';
-import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
 import './Dashboard.css';
 
 const Dashboard = () => {
@@ -9,7 +9,7 @@ const Dashboard = () => {
     const [income, setIncome] = useState(0);
     const [monthlyData, setMonthlyData] = useState({});
 
-    const COLORS = ['#0088FE', '#00C49F', '#FFBB28'];
+    const COLORS = ['#191970', '#FF7F7F', '#87CEEB'];
 
     useEffect(() => {
         const fetchData = async () => {
@@ -69,14 +69,14 @@ const Dashboard = () => {
     const totalMonthlySavings = totalPotentialIncome - totalMonthlyExpenses;
 
     const budgetData = [
-        { name: 'Total Monthly Expenses', value: totalMonthlyExpenses },
-        { name: 'Total Monthly Savings', value: totalMonthlySavings }
+        { name: 'Total Expense', value: totalMonthlyExpenses },
+        { name: 'Total Savings', value: totalMonthlySavings }
     ];
 
     const allData = [
-        { name: 'Total Potential Income', value: totalPotentialIncome },
-        { name: 'Total Monthly Expenses', value: totalMonthlyExpenses },
-        { name: 'Total Monthly Savings', value: totalMonthlySavings }
+        { name: 'Total Income', value: totalPotentialIncome },
+        { name: 'Total Expense', value: totalMonthlyExpenses },
+        { name: 'Total Savings', value: totalMonthlySavings }
     ];
 
     return (
@@ -87,7 +87,7 @@ const Dashboard = () => {
                     <div className="charts-container">
                         <div className="chart-container">
                             <h3>Expense Categories</h3>
-                            <ResponsiveContainer width="100%" height={500}>
+                            <ResponsiveContainer width="100%" height={300}>
                                 <BarChart 
                                     data={barChartData} 
                                     margin={{ top: 20, right: 30, left: 20, bottom: 85 }}
@@ -95,7 +95,7 @@ const Dashboard = () => {
                                 >
                                     <XAxis dataKey="name" 
                                         label={{ value: 'Categories', position: 'insideBottom', offset: -82 }}
-                                        angle={-70} tick={{ textAnchor: "end", fontSize: 14 }}
+                                        angle={-70} tick={{ textAnchor: "end", fontSize: 12}}
                                         tickFormatter={(value) => value.length > 7 ? `${value.slice(0, 11)}...` : value}
                                     />
                                     <YAxis label={{ value: 'Total Amount', angle: -90, position: 'insideLeft', offset: -10, dy: 20 }} />
@@ -103,7 +103,6 @@ const Dashboard = () => {
                                     <Bar 
                                         dataKey="amount" 
                                         fill="#82ca9d" 
-                                        // barSize={50}
                                         animationBegin={0}
                                         animationDuration={1000}
                                     />
@@ -112,31 +111,40 @@ const Dashboard = () => {
                         </div>
                         <div className="chart-container">
                             <h3>Budget Overview</h3>
-                            <ResponsiveContainer width="100%" height={500}>
+                            <ResponsiveContainer width="100%" height={300}>
                                 <PieChart>
                                     <Pie
                                         data={budgetData}
                                         cx="50%"
                                         cy="50%"
                                         labelLine={false}
-                                        outerRadius={150}
+                                        outerRadius={110}
                                         fill="#8884d8"
                                         dataKey="value"
                                         animationBegin={0}
                                         animationDuration={1000}
                                     >
-                                        {budgetData.map((entry) => (
-                                            <Cell key={`cell-${entry.name}`} fill={entry.name === 'Total Monthly Expenses' ? COLORS[1] : COLORS[2]} />
+                                        {budgetData.map((entry, index) => (
+                                            <Cell key={`cell-${entry.name}`} fill={index === 0 ? COLORS[1] : COLORS[2]} />
                                         ))}
                                     </Pie>
                                     <Tooltip formatter={(value) => `$${value.toFixed(2)}`} />
                                     <Legend 
+                                        verticalAlign="middle"
+                                        align="right"
+                                        layout="vertical"
+                                        iconType="circle"
                                         payload={allData.map((item, index) => ({
                                             id: item.name,
-                                            type: 'square',
-                                            value: `${item.name}: $${item.value.toFixed(2)}`,
+                                            type: 'circle',
+                                            value: `${item.name}\n$${item.value.toFixed(2)}`,
                                             color: COLORS[index]
                                         }))}
+                                        wrapperStyle={{
+                                            paddingLeft: '20px',
+                                            lineHeight: '24px',
+                                            fontSize: '13px'
+                                        }}
                                     />
                                 </PieChart>
                             </ResponsiveContainer>
