@@ -1,7 +1,8 @@
 /* src/styles/App.css */
 :root {
-  --primary-color: #2196F3;      /* Material Blue */
-  --secondary-color: #FF4081;    /* Material Pink */
+  /*--primary-color: #2196F3;  */    /* Material Blue */
+  --primary-color: #1f77b4;
+  --secondary-color: #96ff40;    /* Material Pink */
   --success-color: #4CAF50;      /* Material Green */
   --warning-color: #FFC107;      /* Material Amber */
   --error-color: #F44336;        /* Material Red */
@@ -22,7 +23,7 @@
 }
 
 body {
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Roboto', 'sans-serif';
   background-color: var(--background-color);
   color: var(--text-primary);
   line-height: 1.5;

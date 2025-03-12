@@ -8,8 +8,9 @@ const Dashboard = () => {
     const [expenses, setExpenses] = useState([]);
     const [income, setIncome] = useState(0);
     const [monthlyData, setMonthlyData] = useState({});
+    const COLORS = ['#2196f3','#7090be','#234972'];
 
-    const COLORS = ['#191970', '#FF7F7F', '#87CEEB'];
+    // const COLORS = ['#191970', '#FF7F7F', '#87CEEB'];
 
     useEffect(() => {
         const fetchData = async () => {
@@ -87,7 +88,7 @@ const Dashboard = () => {
                     <div className="charts-container">
                         <div className="chart-container">
                             <h3>Expense Categories</h3>
-                            <ResponsiveContainer width="100%" height={300}>
+                            <ResponsiveContainer width="100%" height={400}>
                                 <BarChart 
                                     data={barChartData} 
                                     margin={{ top: 20, right: 30, left: 20, bottom: 85 }}
@@ -102,23 +103,24 @@ const Dashboard = () => {
                                     <Tooltip formatter={(value) => `$${value.toFixed(2)}`} />
                                     <Bar 
                                         dataKey="amount" 
-                                        fill="#82ca9d" 
+                                        // fill="#82ca9d" 
+                                        fill='#6192cf'
                                         animationBegin={0}
-                                        animationDuration={1000}
+                                        animationDuration={500}
                                     />
                                 </BarChart>
                             </ResponsiveContainer>
                         </div>
                         <div className="chart-container">
                             <h3>Budget Overview</h3>
-                            <ResponsiveContainer width="100%" height={300}>
+                            <ResponsiveContainer width="100%" height={400}>
                                 <PieChart>
                                     <Pie
                                         data={budgetData}
                                         cx="50%"
                                         cy="50%"
                                         labelLine={false}
-                                        outerRadius={110}
+                                        outerRadius={120}
                                         fill="#8884d8"
                                         dataKey="value"
                                         animationBegin={0}
