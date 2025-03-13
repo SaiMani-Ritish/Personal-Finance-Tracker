@@ -74,6 +74,8 @@
 - Ritish: Implement budget tracking and testing AI-generated recommendations.
 - Sangetha: Polish dashboard UI and integrate expense data for dynamic updates.
 
+---
+
 ##### **Meeting 6 - March 5, 2025**  
 **Agenda:**
 - Discussed challenges with AI integration and data accuracy.
@@ -84,6 +86,8 @@
 - Vidhi: Conduct final testing for expense operations and AI integration.
 - Ritish: Refine budget planner and implement necessary tweaks based on feedback.
 - Sangetha: Finalize UI design for better user experience and layout.
+
+---
 
 ##### **Meeting 7 - March 12, 2025**  
 **Agenda:**
