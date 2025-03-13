@@ -16,10 +16,12 @@ export default function DeleteExpense({ expense, onDelete }) {
         setOpen(true);
     };
 
+    // Close the dialog
     const handleClose = () => {
         setOpen(false);
     };
 
+    // Render the dialog
     return (
         <React.Fragment>
             <IconButton variant="outlined" startIcon={<DeleteIcon />} onClick={handleClickOpen}>

@@ -57,11 +57,13 @@ const Dashboard = () => {
         fetchData();
     }, []);
 
+    // Prepare data for bar chart
     const barChartData = Object.entries(monthlyData.categoryExpenses || {}).map(([category, amount]) => ({
         name: category,
         amount: amount
     }));
 
+    // Prepare data for pie chart
     const monthlyIncome = income;
     const totalMonthlyExpenses = monthlyData.totalExpenses || 0;
     const numberOfMonths = monthlyData.numberOfMonths || 1;
@@ -79,6 +81,7 @@ const Dashboard = () => {
         { name: 'Total Savings', value: totalMonthlySavings }
     ];
 
+    //  Render dashboard
     return (
         <div className="dashboard-container">
             {expenses.length > 0 ? (

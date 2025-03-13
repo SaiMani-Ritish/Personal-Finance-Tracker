@@ -15,6 +15,7 @@ export function ExpenseManager() {
     fetchExpenses();
   }, []);
 
+  // Fetch expenses
   const fetchExpenses = async () => {
     try {
       const data = await expenseService.getAllExpenses();
@@ -25,6 +26,7 @@ export function ExpenseManager() {
     }
   };
 
+  // Save expense
   const handleSubmit = async (expenseData) => {
     try {
       if (selectedExpense) {
@@ -43,6 +45,7 @@ export function ExpenseManager() {
     }
   };
 
+  // Delete expense
   const handleDelete = async (id) => {
     try {
       await expenseService.deleteExpense(id);
@@ -52,22 +55,26 @@ export function ExpenseManager() {
       alert('Error deleting expense');
     }
   };
-
+  
+  // Edit expense
   const handleEdit = (expense) => {
     setSelectedExpense(expense);
     setOpen(true);
   };
 
+  // Open expense modal
   const handleOpen = () => {
     setSelectedExpense(null);
     setOpen(true);
   };
 
+  // Close expense modal
   const handleClose = () => {
     setSelectedExpense(null);
     setOpen(false);
   };
 
+  // Render the component
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
       <Box sx={{ mb: 4, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>

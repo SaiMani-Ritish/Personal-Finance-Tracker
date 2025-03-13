@@ -20,6 +20,7 @@ const ExpenseChart = ({ expenses }) => {
         ],
     };
 
+    // Configure chart options
     const options = {
         responsive: true,
         maintainAspectRatio: false,
@@ -35,7 +36,7 @@ const ExpenseChart = ({ expenses }) => {
             },
         },
     };
-
+    // Render the chart
     return (
         <Card style={{ maxWidth: '400px', margin: '0 auto' }}>
             <CardContent>

@@ -31,6 +31,7 @@ export function ExpenseModal({ open, onSubmit, onClose, expense }) {
     date: null
   });
 
+  // Set form data when expense prop changes
   React.useEffect(() => {
     if (expense) {
       setFormData({
@@ -49,6 +50,7 @@ export function ExpenseModal({ open, onSubmit, onClose, expense }) {
     }
   }, [expense]);
 
+  // Handle form input changes
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData(prev => ({
@@ -57,6 +59,7 @@ export function ExpenseModal({ open, onSubmit, onClose, expense }) {
     }));
   };
 
+  // Handle form submission
   const handleSubmit = (event) => {
     event.preventDefault();
     onSubmit({
@@ -71,6 +74,7 @@ export function ExpenseModal({ open, onSubmit, onClose, expense }) {
     });
   };
 
+  // Close the modal
   const handleClose = () => {
     setFormData({
       amount: '',
@@ -81,6 +85,7 @@ export function ExpenseModal({ open, onSubmit, onClose, expense }) {
     onClose();
   };
 
+// Render the modal
   return (
     <Modal
       open={open}

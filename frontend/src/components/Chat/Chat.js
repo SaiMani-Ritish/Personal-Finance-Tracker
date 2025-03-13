@@ -3,6 +3,7 @@ import ReactMarkdown from "react-markdown";
 import { Box, Button, TextField, Typography, CircularProgress } from '@mui/material';
 import { chatService } from '../../services/chatService';
 
+// Chat component
 const Chat = () => {
     const [inputText, setInputText] = React.useState('');
     const [result, setResult] = React.useState('');
