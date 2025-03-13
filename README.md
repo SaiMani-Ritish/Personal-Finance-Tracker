@@ -7,12 +7,11 @@ The **Personal Finance Tracker** is a MERN stack web application designed to hel
 - **Dashboard:**  
   - Displays financial overviews, including income trends and categorized expenses.  
   - Interactive charts for better visualization of our spending and savings.  
-  - AI-powered chatbot for financial queries and insights.  
 
 - **Expense Manager:**  
   - Allows users to log expenses with details like name, category, amount, and date.  
   - Edit and delete expenses to keep records updated.  
-  - Filters for sorting expenses based on date, category, and amount.  
+  - Filters for sorting expenses based on date.  
 
 - **Budget Planner:**  
   - Enables users to set monthly budgets for different spending categories.  
@@ -20,8 +19,9 @@ The **Personal Finance Tracker** is a MERN stack web application designed to hel
   - Helps users manage and adjust savings strategies.  
 
 - **Generative AI Integration:**  
-  - AI-powered chatbot for personalized finance recommendations.  
-  - Analyzes user spending patterns to provide insights and budget suggestions.  
+  - AI-powered chatbot for personalized expense tracking. 
+  - Provides real-time updates on spending limits within each category.
+  - AI-powered chatbot for financial queries and insights.   
 
 #### **Technology Stack**  
 - **Frontend:** React, React Router, JSX, Bootstrap for UI  
@@ -64,7 +64,7 @@ The **Personal Finance Tracker** is a MERN stack web application designed to hel
 - Improved UI design and state management in React.  
 
 #### **Contributors**  
-- **Vidhi** – Expense Manager Feature  
+- **Vidhi** – Expense Manager Feature and Chatbot Feature 
 - **Ritish** – Budget Planner Feature  
 - **Sangeetha** – Dashboard Feature  
 
