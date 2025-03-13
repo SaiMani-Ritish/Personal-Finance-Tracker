@@ -1,3 +1,4 @@
+// List of expense categories
 export const EXPENSE_CATEGORIES = [
     'Food & Dining',
     'Transportation',

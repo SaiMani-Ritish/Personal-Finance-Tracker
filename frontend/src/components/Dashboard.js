@@ -4,13 +4,12 @@ import { budgetService } from '../services/budgetService';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
 import './Dashboard.css';
 
+// Dashboard component
 const Dashboard = () => {
     const [expenses, setExpenses] = useState([]);
     const [income, setIncome] = useState(0);
     const [monthlyData, setMonthlyData] = useState({});
     const COLORS = ['#2196f3','#7090be','#234972'];
-
-    // const COLORS = ['#191970', '#FF7F7F', '#87CEEB'];
 
     useEffect(() => {
         const fetchData = async () => {
@@ -82,7 +81,6 @@ const Dashboard = () => {
 
     return (
         <div className="dashboard-container">
-            {/* <h2>Dashboard</h2> */}
             {expenses.length > 0 ? (
                 <>
                     <div className="charts-container">

@@ -2,6 +2,7 @@ import axios from 'axios';
 
 const API_URL = 'http://localhost:8080/api/budget';
 
+// Budget service
 export const budgetService = {
     async updateBudget(budgetData) {
         const response = await axios.post(`${API_URL}/update`, budgetData);

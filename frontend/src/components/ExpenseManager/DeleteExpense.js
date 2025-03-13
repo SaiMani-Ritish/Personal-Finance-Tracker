@@ -8,6 +8,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 
+// Dialog for deleting an expense
 export default function DeleteExpense({ expense, onDelete }) {
     const [open, setOpen] = React.useState(false);
 

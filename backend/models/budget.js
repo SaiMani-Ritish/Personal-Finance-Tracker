@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+// Goal schema
 const goalSchema = new mongoose.Schema({
     id: {
         type: String,
@@ -24,6 +25,7 @@ const goalSchema = new mongoose.Schema({
     }
 });
 
+// Budget schema
 const budgetSchema = new mongoose.Schema({
     income: {
         type: Number,

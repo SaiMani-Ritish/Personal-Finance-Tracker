@@ -69,7 +69,7 @@ const Chat = () => {
             }
         }
     };
-
+    // Render the chat interface
     return (
         <Box className="chat-container" sx={{ width: '100%', height: '100%', padding: 10 }}>
             <TextField

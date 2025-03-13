@@ -9,6 +9,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import Chat from './components/Chat/Chat';
 
+// App component
 function App() {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>

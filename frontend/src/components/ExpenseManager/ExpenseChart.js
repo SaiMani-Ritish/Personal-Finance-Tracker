@@ -5,6 +5,7 @@ import { Chart as ChartJS, BarElement, CategoryScale, LinearScale, Tooltip, Lege
 
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 
+// ExpenseChart component
 const ExpenseChart = ({ expenses }) => {
     const data = {
         labels: expenses.map(expense => expense.category),

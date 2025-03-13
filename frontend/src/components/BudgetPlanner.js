@@ -199,8 +199,7 @@ function BudgetPlanner() {
         color: '#000',
         fontWeight: 600,
         mb: 4
-      }}>
-        {/* Budget Planner */}
+      }}>  
       </Typography>
     
       {/* Top Section - Income/Expenses and Saving Summary side by side */}

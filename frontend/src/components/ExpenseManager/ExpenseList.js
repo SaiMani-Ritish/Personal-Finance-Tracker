@@ -12,6 +12,7 @@ import DeleteExpense from './DeleteExpense';
 
 const dayjs = require('dayjs');
 
+// expense list
 export function ExpenseList({ expenses, onEdit, onDelete }) {
   return (
     <Box>

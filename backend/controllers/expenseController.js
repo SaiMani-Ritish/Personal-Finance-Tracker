@@ -92,7 +92,7 @@ exports.getExpenses = async (req, res) => {
   }
 };
 
-// Expense Summary for Dashboard (New API)
+// Expense Summary for Dashboard 
 exports.getExpensesSummary = async (req, res) => {
   try {
     const expenses = await Expense.find();

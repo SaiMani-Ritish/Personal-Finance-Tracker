@@ -4,6 +4,7 @@ import ExpenseModal from './ExpenseModal';
 import { Box, Button, Container, Typography } from '@mui/material';
 import { expenseService } from '../../services/expenseService';
 
+// ExpenseManager component
 export function ExpenseManager() {
   const [open, setOpen] = React.useState(false);
   const [selectedExpense, setSelectedExpense] = React.useState(null);
@@ -71,7 +72,6 @@ export function ExpenseManager() {
     <Container maxWidth="lg" sx={{ py: 4 }}>
       <Box sx={{ mb: 4, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <Typography variant="h4" component="h1" sx={{ color: '#2c3e50', fontWeight: 500 }}>
-          {/* Expense Manager */}
         </Typography>
         <Button 
           variant="contained" 

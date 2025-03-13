@@ -22,6 +22,7 @@ const inputStyle = {
   mb: 2.5
 };
 
+//  Modal for adding and editing expenses
 export function ExpenseModal({ open, onSubmit, onClose, expense }) {
   const [formData, setFormData] = React.useState({
     amount: '',
