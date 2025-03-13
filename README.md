@@ -31,6 +31,19 @@ The **Personal Finance Tracker** is a MERN stack web application designed to hel
 - **Authentication:** (To be added in future versions)  
 - **Version Control:** GitHub  
 
+#### **Dependencies**
+react
+react-dom
+react-scripts
+express
+mongoose
+jsonwebtoken
+dotenv
+cors
+ollama
+body-parser
+nodemon
+
 #### **Installation & Setup** 
 
 1. Clone the repository:  
