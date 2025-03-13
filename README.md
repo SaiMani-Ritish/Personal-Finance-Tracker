@@ -27,7 +27,8 @@ The **Personal Finance Tracker** is a MERN stack web application designed to hel
 - **Frontend:** React, React Router, JSX, Bootstrap for UI  
 - **Backend:** Node.js(server-side runtime), Express.js(backend framework)
 - **Database:** MongoDB (Mongoose for schema modeling)  
-- **State Management:** React Context API / Hooks  
+- **State Management:** React Context API / Hooks
+- **AI:** Ollama with Gemma2 
 - **Authentication:** (To be added in future versions)  
 - **Version Control:** GitHub  
 
