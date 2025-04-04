@@ -1,4 +1,4 @@
-#Personal Finance Tracker
+# Personal Finance Tracker
 
  
 This **Personal Finance Tracker** application is a MERN stack web application designed to help users track their financial transactions, manage expenses, and plan their budgets effectively. The app provides an interactive dashboard with categorized expenses, income tracking, savings distribution, and AI-powered financial insights.  
@@ -11,7 +11,7 @@ This **Personal Finance Tracker** application is a MERN stack web application de
 - **Expense Manager:**  
   - Allows users to log expenses with details like name, category, amount, and date.  
   - Edit and delete expenses to keep records updated.  
-  - Filters for sorting expenses based on date.  
+  - Filters for sorting expenses are based on the date.  
 
 - **Budget Planner:**  
   - Enables users to set monthly budgets for different spending categories.  
