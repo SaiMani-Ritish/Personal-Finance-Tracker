@@ -1,4 +1,4 @@
-# TP-CS628_Team3_Personal Finance Tracker
+Personal Finance Tracker
 
  
 This **Personal Finance Tracker** application is a MERN stack web application designed to help users track their financial transactions, manage expenses, and plan their budgets effectively. The app provides an interactive dashboard with categorized expenses, income tracking, savings distribution, and AI-powered financial insights.  
