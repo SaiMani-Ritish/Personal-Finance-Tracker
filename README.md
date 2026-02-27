@@ -63,8 +63,3 @@ This **Personal Finance Tracker** application is a MERN stack web application de
 - Gained hands-on experience in project collaboration using GitHub.  
 - Improved UI design and state management in React.  
 
-#### **Contributors**  
-- **Vidhi** – Expense Manager Feature and Chatbot Feature 
-- **Ritish** – Budget Planner Feature  
-- **Sangeetha** – Dashboard Feature  
-
